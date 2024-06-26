@@ -1,0 +1,72 @@
+import axios from 'axios';
+import {BASE_URL} from '../config/API';
+import {AUTH_COOKIE} from '../config/key';
+
+export const sendRequest = async (uri, method, payload) => {
+    const auth = getCookie(AUTH_COOKIE);
+    let token = '';
+    if (auth) {
+        // eslint-disable-next-line prefer-destructuring
+        token = auth;
+    }
+
+    return axios.request({
+        url: `${BASE_URL}${uri}`,
+        method,
+        headers: {
+            Authorization: `Bearer ${token}`
+          },
+        data: payload
+    })
+    .then(res => ({
+        success: true,
+        code: res.status,
+        data: res.data
+    }))
+    .catch(err => {
+        if (err.response) {
+            return {
+                success: false,
+                code: err.response.status,
+                data: err.response.data.message
+            };
+        }
+        return {
+            success: false,
+            code: 501,
+            data: 'The API server is not running now.'
+        };
+    });
+}
+
+export function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + exdays * 60 * 60 * 1000);
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+  }
+  
+export function getCookie(cname) {
+    const name = cname + '=';
+    const ca = document.cookie.split(';');
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+        }
+    }
+    return '';
+}
+
+export const NumberFormater = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+
+    // These options are needed to round to whole numbers if that's what you want.
+    // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
