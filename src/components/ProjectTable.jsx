@@ -1,6 +1,17 @@
 import React from 'react';
+import {getObjectByValue, NumberFormater} from "../utils";
+import {PAYMENT_METHOD} from "../config/enums";
+import {AiOutlineCheck, AiOutlineClockCircle} from "react-icons/ai";
 
-export const ProjectTable = () => {
+export const ProjectTable = ({data, id, onUpdateStatus, onUpdate}) => {
+    const updateStatus = (taskId, status) => {
+        onUpdateStatus(id, taskId, status).then((res) => {
+            if (res.success) {
+                onUpdate();
+            }
+        });
+    }
+
     return (
         <div>
             <table className="table bg-transparent no-border table-responsive-sm table-hover table-sm text-uppercase">
@@ -14,48 +25,40 @@ export const ProjectTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>-Compra de meseta</td>
-                        <td>11-06-24</td>
-                        <td>11-06-24</td>
-                        <td>20,000.00</td>
-                        <td>Tarjeta de credito</td>
-                    </tr>
-                    <tr>
-                        <td>-instalación de meseta</td>
-                        <td>12-06-24</td>
-                        <td>12-06-24</td>
-                        <td>1,000.00</td>
-                        <td>Cuenta de ahorro</td>
-                    </tr>
-                    <tr>
-                        <td>-Compra de meseta</td>
-                        <td>11-06-24</td>
-                        <td>11-06-24</td>
-                        <td>20,000.00</td>
-                        <td>Tarjeta de credito</td>
-                    </tr>
-                    <tr>
-                        <td>-instalación de meseta</td>
-                        <td>12-06-24</td>
-                        <td>12-06-24</td>
-                        <td>1,000.00</td>
-                        <td>Cuenta de ahorro</td>
-                    </tr>
-                    <tr>
-                        <td>-Compra de meseta</td>
-                        <td>11-06-24</td>
-                        <td>11-06-24</td>
-                        <td>20,000.00</td>
-                        <td>Tarjeta de credito</td>
-                    </tr>
-                    <tr>
-                        <td>-instalación de meseta</td>
-                        <td>12-06-24</td>
-                        <td>12-06-24</td>
-                        <td>1,000.00</td>
-                        <td>Cuenta de ahorro</td>
-                    </tr>
+                {
+                    data.map((item, index) => (
+                        <tr key={index}>
+                            <td className="d-flex align-items-center align-content-center">
+                                -{item.name}
+                                <button
+                                    onClick={(e) => {
+                                        // pending
+                                        if (item.status === "0") {
+                                            updateStatus(item.id,"1");
+                                        } else {
+                                            updateStatus(item.id, "0");
+                                        }
+                                    }}
+                                    className="bg-transparent p-0 border-0 d-flex align-items-center align-content-center ms-2">
+                                    {
+                                        item.status === "0" ? <AiOutlineClockCircle className="text-white fs-5" /> : <AiOutlineCheck className="text-white fs-5" />
+                                    }
+                                </button>
+                            </td>
+                            <td>{item.start_date}</td>
+                            <td>{item.end_date}</td>
+                            <td>{NumberFormater.format(item.amount)}</td>
+                            <td className="d-flex align-items-center">
+                                {getObjectByValue(PAYMENT_METHOD, item.payment_method).name}
+                                { getObjectByValue(PAYMENT_METHOD, item.payment_method).icon && (
+                                    <img className="ms-1 img-xs"
+                                         src={getObjectByValue(PAYMENT_METHOD, item.payment_method).icon}
+                                         alt={getObjectByValue(PAYMENT_METHOD, item.payment_method).name} />
+                                )}
+                            </td>
+                        </tr>
+                    ))
+                }
                 </tbody>
             </table>
         </div>

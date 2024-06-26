@@ -335,3 +335,8 @@ table.bg-transparent.no-border tr td, table.bg-transparent.no-border tr th{
 .carousel-control-next, .carousel-control-prev {
   width: auto !important;
 }
+
+.img-xs {
+  width: 1rem;
+  height: 1rem;
+}

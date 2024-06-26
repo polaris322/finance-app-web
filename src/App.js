@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import AuthProvider from './contexts/AuthContext';
 import Login from './views/Login';
 import Register from './views/Register';
@@ -13,10 +14,12 @@ import {ProjectsView} from "./views/ProjectsView";
 import {Configuration} from "./views/Configuration";
 import {Utilities} from "./views/Utilities";
 import {ActivitiesView} from "./views/Activities";
+import {store} from "./store";
 
 const App = () => {
     return (
-        <AuthProvider>
+        <Provider store={store}>
+            <AuthProvider>
             <Router>
                 <Routes>
                     <Route path="/" element={
@@ -75,6 +78,7 @@ const App = () => {
                 </Routes>
             </Router>
         </AuthProvider>
+        </Provider>
     );
 };
 
