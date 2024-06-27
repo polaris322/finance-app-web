@@ -2,7 +2,14 @@ import React, {useState} from 'react';
 import {Modal, Form, NavDropdown, Row, Col, InputGroup} from 'react-bootstrap';
 import {LiaRecycleSolid} from "react-icons/lia";
 import {useDispatch} from "react-redux";
-import {PAYMENT_FREQUENCY, PAYMENT_METHOD, PAYMENT_TYPE} from "../config/enums";
+import {
+    PAYMENT_FREQUENCY,
+    PAYMENT_FREQUENCY_ENUM,
+    PAYMENT_METHOD,
+    PAYMENT_METHOD_ENUM,
+    PAYMENT_TYPE,
+    PAYMENT_TYPE_ENUM
+} from "../config/enums";
 import {createIncome} from "../services/IncomeService";
 import {updateIncomeList} from "../store/actions/incomes";
 
@@ -10,16 +17,28 @@ export const IgresoDialog = () => {
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
-    const [paymentType, setPaymentType] = useState('1');
+    const [paymentType, setPaymentType] = useState(PAYMENT_TYPE_ENUM.DYNAMIC);
     const [incomeName, setIncomeName] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('0');
-    const [paymentFrequency, setPaymentFrequency] = useState('0');
+    const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHOD_ENUM.SCOTIABANK);
+    const [paymentFrequency, setPaymentFrequency] = useState(PAYMENT_FREQUENCY_ENUM.MONTHLY);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [amount, setAmount] = useState(1.00);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        clearForm();
+        setShow(false);
+    }
     const handleShow = () => setShow(true);
+    const clearForm = () => {
+        setPaymentFrequency(PAYMENT_FREQUENCY_ENUM.MONTHLY);
+        setPaymentType(PAYMENT_TYPE_ENUM.DYNAMIC);
+        setAmount(1.00);
+        setStartDate('');
+        setEndDate('');
+        setIncomeName('');
+        setPaymentMethod(PAYMENT_METHOD_ENUM.SCOTIABANK);
+    }
 
     /**
      * Create new income
@@ -95,7 +114,7 @@ export const IgresoDialog = () => {
                             </Col>
                             {
                                 /* Dynamic payment only */
-                                paymentType === '1' && (
+                                paymentType === PAYMENT_TYPE_ENUM.DYNAMIC && (
                                     <Col md={6}>
                                         <Form.Group className="mb-2">
                                             <Form.Label className="fw-bold">Frecuencia</Form.Label>

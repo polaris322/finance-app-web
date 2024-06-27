@@ -2,20 +2,30 @@ import axios from 'axios';
 import {BASE_URL} from '../config/API';
 import {AUTH_COOKIE} from '../config/key';
 
-export const sendRequest = async (uri, method, payload) => {
+export const sendRequest = async (uri, method, payload, isFormData = false) => {
     const auth = getCookie(AUTH_COOKIE);
     let token = '';
+
     if (auth) {
         // eslint-disable-next-line prefer-destructuring
         token = auth;
     }
 
+    let headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+    if (isFormData) {
+        headers = {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+        };
+    }
+
     return axios.request({
         url: `${BASE_URL}${uri}`,
         method,
-        headers: {
-            Authorization: `Bearer ${token}`
-          },
+        headers,
         data: payload
     })
     .then(res => ({

@@ -17,7 +17,13 @@ export const PAYMENT_METHOD = [
         icon: '',
         value: "2"
     }
-]
+];
+
+export const PAYMENT_METHOD_ENUM = {
+    SCOTIABANK: "0",
+    BANRESERVAS: "1",
+    POPULAR: "2"
+};
 
 export const PAYMENT_STATUS = [
     {
@@ -28,7 +34,12 @@ export const PAYMENT_STATUS = [
         name: "Pagador",
         value: "1"
     }
-]
+];
+
+export const PAYMENT_STATUS_ENUM = {
+    PENDING: "0",
+    FINISHED: "1"
+};
 
 export const PAYMENT_TYPE = [
     {
@@ -39,7 +50,12 @@ export const PAYMENT_TYPE = [
         name: "Dynamico",
         value: "1"
     }
-]
+];
+
+export const PAYMENT_TYPE_ENUM = {
+    FIXED: '0',
+    DYNAMIC: "1"
+};
 
 export const PAYMENT_FREQUENCY = [
     {
@@ -62,4 +78,34 @@ export const PAYMENT_FREQUENCY = [
         name: "Unico",
         value: "4"
     }
-]
+];
+
+export const PAYMENT_FREQUENCY_ENUM = {
+    SEMI_YEARLY: "0",
+    QUART_YEARLY: "1",
+    MONTHLY: '2',
+    ANNUALLY: "3",
+    ONE_TIEM: '4'
+
+};
+
+export const OUTCOME_CATEGORY = [
+    {
+        name: 'Prestamos',
+        value: "0"
+    },
+    {
+        name: 'Servicios',
+        value: "1"
+    },
+    {
+        name: 'Otros',
+        value: "2"
+    }
+];
+
+export const OUTCOME_CATEGORY_ENUM = {
+    LOAN: "0",
+    SERVICE: "1",
+    OTHER: "2"
+};

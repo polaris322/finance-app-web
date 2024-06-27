@@ -3,7 +3,7 @@ import {Modal, Form, NavDropdown, Row, Col, InputGroup} from 'react-bootstrap';
 import {FaPlusCircle} from "react-icons/fa";
 import {FaChampagneGlasses} from "react-icons/fa6";
 import {useDispatch, useSelector} from "react-redux";
-import {PAYMENT_METHOD, PAYMENT_STATUS} from "../config/enums";
+import {PAYMENT_METHOD, PAYMENT_METHOD_ENUM, PAYMENT_STATUS, PAYMENT_STATUS_ENUM} from "../config/enums";
 import {createActivityTask, fetchActivities} from "../services/ActivityService";
 import {updateActivityList} from "../store/actions/activities";
 
@@ -14,14 +14,26 @@ export const ActividadesDialog = () => {
 
     const [activityId, setActivityId] = useState(0);
     const [taskName, setTaskName] = useState('');
-    const [paymentStatus, setPaymentStatus] = useState('1');
-    const [paymentMethod, setPaymentMethod] = useState('0');
+    const [paymentStatus, setPaymentStatus] = useState(PAYMENT_STATUS_ENUM.FINISHED);
+    const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHOD_ENUM.SCOTIABANK);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [amount, setAmount] = useState(1.00);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        clearForm();
+        setShow(false);
+    }
     const handleShow = () => setShow(true);
+    const clearForm = () => {
+        setActivityId(0);
+        setPaymentStatus(PAYMENT_STATUS_ENUM.FINISHED);
+        setAmount(1.00);
+        setStartDate('');
+        setEndDate('');
+        setTaskName('');
+        setPaymentMethod(PAYMENT_METHOD_ENUM.SCOTIABANK);
+    }
 
     const newTask = (e) => {
         e.preventDefault();

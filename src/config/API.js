@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:8000/api";
+export const DOMAIN = "http://localhost:8000";
+export const BASE_URL = DOMAIN + "/api";
 export const LOGIN = "/login";
 export const REGISTER = "/register";
 export const LOGOUT = "/logout";

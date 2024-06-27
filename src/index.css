@@ -340,3 +340,7 @@ table.bg-transparent.no-border tr td, table.bg-transparent.no-border tr th{
   width: 1rem;
   height: 1rem;
 }
+
+.w-35 {
+  width: 35%;
+}
