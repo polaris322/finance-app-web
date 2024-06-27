@@ -29,3 +29,37 @@ export const PAYMENT_STATUS = [
         value: "1"
     }
 ]
+
+export const PAYMENT_TYPE = [
+    {
+        name: "Fijo",
+        value: "0"
+    },
+    {
+        name: "Dynamico",
+        value: "1"
+    }
+]
+
+export const PAYMENT_FREQUENCY = [
+    {
+        name: "Semanal",
+        value: "0"
+    },
+    {
+        name: "Quincenal",
+        value: "1"
+    },
+    {
+        name: "Mensual",
+        value: "2"
+    },
+    {
+        name: "Anual",
+        value: "3"
+    },
+    {
+        name: "Unico",
+        value: "4"
+    }
+]

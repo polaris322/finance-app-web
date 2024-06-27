@@ -1,10 +1,12 @@
 import {combineReducers, createStore} from "redux";
 import { projectReducer } from './reducers/projects';
 import {activityReducer} from "./reducers/activities";
+import {incomeReducer} from "./reducers/incomes";
 
 const rootReducer = combineReducers({
     project: projectReducer,
-    activity: activityReducer
+    activity: activityReducer,
+    income: incomeReducer
 });
 
 export const store = createStore(
