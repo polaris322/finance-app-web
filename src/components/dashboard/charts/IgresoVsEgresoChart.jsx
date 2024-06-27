@@ -3,7 +3,7 @@ import HighchartsReact from 'highcharts-react-official';
 import highcharts3d from 'highcharts/highcharts-3d';
 highcharts3d(Highcharts);
 
-export const SaturationChart = () => {
+export const SaturationChart = ({income, outcome}) => {
     const pieChartOptions = {
         chart: {
             type: 'pie',
@@ -61,12 +61,12 @@ export const SaturationChart = () => {
             data: [
                 {
                     name: 'Ingreso',
-                    y: 32000,
+                    y: income,
                     color: '#618a00' // Set custom color for this data point
                 },
                 {
                     name: 'Egreso',
-                    y: 35000,
+                    y: outcome,
                     color: '#fa400f' // Set custom color for this data point
                 }
             ]

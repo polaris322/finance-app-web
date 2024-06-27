@@ -3,7 +3,7 @@ import HighchartsReact from 'highcharts-react-official';
 import highcharts3d from 'highcharts/highcharts-3d';
 highcharts3d(Highcharts);
 
-export const Cumpliemiento3DChart = () => {
+export const Cumpliemiento3DChart = ({paid, pending}) => {
     const pieChartOptions = {
         chart: {
             type: 'pie',
@@ -59,12 +59,12 @@ export const Cumpliemiento3DChart = () => {
             data: [
                 {
                     name: 'Pendiente por pagar',
-                    y: 14958,
+                    y: pending,
                     color: '#fa400f' // Set custom color for this data point
                 },
                 {
                     name: 'Total pagado',
-                    y: 20042,
+                    y: paid,
                     color: '#004382' // Set custom color for this data point
                 }
             ]

@@ -1,14 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from "../layout/Layout";
-import {BiHistory, BiMoney} from "react-icons/bi";
+import {BiHistory} from "react-icons/bi";
 import {HistoryTable} from "../components/HistoryTable";
 import {NavDropdown} from "react-bootstrap";
-import {FaShareAlt} from "react-icons/fa";
-import {LiaRecycleSolid} from "react-icons/lia";
-import {FaChampagneGlasses} from "react-icons/fa6";
 import {AiFillFilter} from "react-icons/ai";
+import {fetchDailyStatistics} from "../services/StatisticsService";
 
 export const HistoryView = () => {
+    const [historyData, setHistoryData] = useState([]);
+    const [days, setDays] = useState(7);
+
+    useEffect(()=>{
+        fetchDailyStatistics(days).then(res => {
+            if (res.success) {
+                setHistoryData(res.data);
+            }
+        });
+    }, [days]);
+
     return (
         <Layout>
             <div className="d-flex align-items-center justify-content-between">
@@ -27,41 +36,39 @@ export const HistoryView = () => {
                     }>
                     <NavDropdown.Item
                         href="#"
+                        className="text-uppercase"
                         onClick={(e) => {
                             e.preventDefault();
+                            setDays(7);
                         }}
                     >
-                        <BiMoney /> Gasto
+                        la semana pasada
                     </NavDropdown.Item>
                     <NavDropdown.Item
                         href="#"
+                        className="text-uppercase"
                         onClick={(e) => {
                             e.preventDefault();
+                            setDays(30);
                         }}
                     >
-                        <LiaRecycleSolid /> Ingreso
+                        el mes pasado
                     </NavDropdown.Item>
                     <NavDropdown.Item
                         href="#"
+                        className="text-uppercase"
                         onClick={(e) => {
                             e.preventDefault();
+                            setDays(120);
                         }}
                     >
-                        <FaShareAlt /> Proyectos
-                    </NavDropdown.Item>
-                    <NavDropdown.Item
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault();
-                        }}
-                    >
-                        <FaChampagneGlasses /> Actividades
+                        último trimestre del año
                     </NavDropdown.Item>
                 </NavDropdown>
             </div>
             <div className="w-100 mt-4">
                 <div className="bg-light-green p-3 rounded-4 shadow-lg">
-                    <HistoryTable />
+                    <HistoryTable data={historyData}/>
                 </div>
             </div>
         </Layout>

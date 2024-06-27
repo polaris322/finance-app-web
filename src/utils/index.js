@@ -35,6 +35,9 @@ export const sendRequest = async (uri, method, payload, isFormData = false) => {
     }))
     .catch(err => {
         if (err.response) {
+            if (err.response.status === 401) {
+                document.location.href = "/login";
+            }
             return {
                 success: false,
                 code: err.response.status,

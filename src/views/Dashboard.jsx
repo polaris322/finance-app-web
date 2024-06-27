@@ -1,5 +1,5 @@
 // src/components/Dashboard.js
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from "../layout/Layout";
 import {TileCard} from "../components/dashboard/TileCard";
 import {AppCalendar} from "../components/dashboard/AppCalendar";
@@ -10,24 +10,70 @@ import {Ahorro3DChart} from "../components/dashboard/charts/Ahorro3DChart";
 import {GastoCategoriesChart} from "../components/dashboard/charts/GastoCategoriesChart";
 import PendingPaymentBarChart from "../components/dashboard/charts/PendingPaymentBarChart";
 import MajorOutBarChart from "../components/dashboard/charts/MajorOutBarChart";
+import {
+    fetchGrossOutcomeStatistics,
+    fetchGrossStatistics, fetchMajorOutcomeStatistics,
+    fetchOutcomeByCategoryStatistics, fetchOutcomePendingStatistics
+} from "../services/StatisticsService";
 
 const Dashboard = () => {
+    const [grossIncome, setGrossIncome] = useState(0);
+    const [grossOutcome, setGrossOutcome] = useState(0);
+    const [grossOutcomePending, setGrossOutcomePending] = useState(0);
+    const [grossOutcomeFinished, setGrossOutcomeFinished] = useState(0);
+    const [outcomeByCategory, setOutcomeByCategory] = useState([]);
+    const [pendingOutcome, setPendingOutcome] = useState([]);
+    const [majorOutcome, setMajorOutcome] = useState([]);
+
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+
+    useEffect(() => {
+        fetchGrossStatistics(year, month).then(res => {
+            if (res.success) {
+                setGrossIncome(res.data.income);
+                setGrossOutcome(res.data.outcome);
+            }
+        });
+        fetchGrossOutcomeStatistics(year, month).then(res => {
+            if (res.success) {
+                setGrossOutcomePending(res.data.pending);
+                setGrossOutcomeFinished(res.data.paid);
+            }
+        });
+        fetchOutcomeByCategoryStatistics(year, month).then(res => {
+            if (res.success) {
+                setOutcomeByCategory(res.data);
+            }
+        });
+        fetchOutcomePendingStatistics(year, month).then(res => {
+            if (res.success) {
+                setPendingOutcome(res.data);
+            }
+        });
+        fetchMajorOutcomeStatistics(year, month).then(res => {
+            if (res.success) {
+                setMajorOutcome(res.data);
+            }
+        });
+    }, [month, year]);
+
     return (
         <Layout>
             <div className="row">
                 <div className="col-md-4">
                     <div className="p-3 rounded-4 bg-dark-green shadow-lg">
-                        <TileCard income={35000} outcome={32000} />
+                        <TileCard income={grossIncome} outcome={grossOutcome} />
                     </div>
                 </div>
                 <div className="col-md-4">
                     <div className="p-3 rounded-4 bg-dark-green shadow-lg">
                         <Carousel interval={null} indicators={false} fade={false}>
                             <CarouselItem>
-                                <SaturationChart />
+                                <SaturationChart income={grossIncome} outcome={grossOutcome}/>
                             </CarouselItem>
                             <CarouselItem>
-                                <Cumpliemiento3DChart />
+                                <Cumpliemiento3DChart paid={grossOutcomeFinished} pending={grossOutcomePending} />
                             </CarouselItem>
                         </Carousel>
                     </div>
@@ -36,10 +82,10 @@ const Dashboard = () => {
                     <div className="p-3 rounded-4 bg-dark-green shadow-lg">
                         <Carousel interval={null} indicators={false} fade={false} className="h-100">
                             <CarouselItem>
-                                <Ahorro3DChart />
+                                <Ahorro3DChart income={grossIncome} outcome={grossOutcome} ahorro={grossIncome - grossOutcome} />
                             </CarouselItem>
                             <CarouselItem>
-                                <GastoCategoriesChart />
+                                <GastoCategoriesChart data={outcomeByCategory} />
                             </CarouselItem>
                         </Carousel>
                     </div>
@@ -51,7 +97,7 @@ const Dashboard = () => {
                     <div className="bg-dark-green rounded-4 p-3 shadow-lg">
                         <Carousel interval={null} indicators={false} fade={false} className="h-100">
                             <CarouselItem>
-                                <PendingPaymentBarChart />
+                                <PendingPaymentBarChart data={pendingOutcome} />
                             </CarouselItem>
                         </Carousel>
                     </div>
@@ -63,7 +109,7 @@ const Dashboard = () => {
                                 <AppCalendar />
                             </CarouselItem>
                             <CarouselItem>
-                                <MajorOutBarChart />
+                                <MajorOutBarChart data={majorOutcome}/>
                             </CarouselItem>
                         </Carousel>
                     </div>

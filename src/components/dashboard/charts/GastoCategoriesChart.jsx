@@ -3,7 +3,19 @@ import HighchartsReact from 'highcharts-react-official';
 import highcharts3d from 'highcharts/highcharts-3d';
 highcharts3d(Highcharts);
 
-export const GastoCategoriesChart = () => {
+export const GastoCategoriesChart = ({data}) => {
+    const colors = [
+        '#374649', '#fd625e', '#f2c80f', '#5f6b6d'
+    ];
+    const chartData = data.map(item => {
+        return {
+            name: item.category_text,
+            y: item.total_amount,
+            color: colors[Number(item.category)]
+        }
+    })
+
+    console.log(chartData)
     const pieChartOptions = {
         chart: {
             type: 'pie',
@@ -60,38 +72,7 @@ export const GastoCategoriesChart = () => {
         series: [{
             type: 'pie',
             colorByPoint: true,
-            data: [
-                {
-                    name: 'Vehiculos',
-                    y: 32000,
-                    color: '#374649' // Set custom color for this data point
-                },
-                {
-                    name: 'Alimentacion',
-                    y: 35000,
-                    color: '#fd625e' // Set custom color for this data point
-                },
-                {
-                    name: 'Vivenda',
-                    y: 32000,
-                    color: '#f2c80f' // Set custom color for this data point
-                },
-                {
-                    name: 'Prestamos',
-                    y: 35000,
-                    color: '#5f6b6d' // Set custom color for this data point
-                },
-                {
-                    name: 'Educacion',
-                    y: 32000,
-                    color: '#8ad4eb' // Set custom color for this data point
-                },
-                {
-                    name: 'Salud',
-                    y: 35000,
-                    color: '#01b8aa' // Set custom color for this data point
-                }
-            ]
+            data: chartData
         }]
     };
 

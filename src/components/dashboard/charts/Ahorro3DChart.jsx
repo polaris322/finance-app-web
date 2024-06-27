@@ -3,7 +3,7 @@ import HighchartsReact from 'highcharts-react-official';
 import highcharts3d from 'highcharts/highcharts-3d';
 highcharts3d(Highcharts);
 
-export const Ahorro3DChart = () => {
+export const Ahorro3DChart = ({income, outcome, ahorro}) => {
     const pieChartOptions = {
         chart: {
             type: 'pie',
@@ -68,17 +68,17 @@ export const Ahorro3DChart = () => {
             data: [
                 {
                     name: 'Ingreso',
-                    y: 38000,
+                    y: income,
                     color: '#f9ce1f' // Set custom color for this data point
                 },
                 {
                     name: 'Egreso',
-                    y: 30000,
+                    y: outcome,
                     color: '#f9400e' // Set custom color for this data point
                 },
                 {
                     name: 'Ahorro',
-                    y: 25000,
+                    y: ahorro,
                     color: '#004383' // Set custom color for this data point
                 }
             ]

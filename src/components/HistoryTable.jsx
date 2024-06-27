@@ -1,6 +1,8 @@
 import React from 'react';
+import {NumberFormater} from "../utils";
+import {format} from 'date-fns';
 
-export const HistoryTable = () => {
+export const HistoryTable = ({data}) => {
     return (
         <div>
             <table className="table bg-transparent no-border table-responsive-sm table-hover table-sm text-uppercase">
@@ -14,48 +16,17 @@ export const HistoryTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>02-23</td>
-                        <td>112,000.00</td>
-                        <td>80,000.00</td>
-                        <td>20,000.00</td>
-                        <td>12,000.00</td>
-                    </tr>
-                    <tr>
-                        <td>02-23</td>
-                        <td>112,000.00</td>
-                        <td>80,000.00</td>
-                        <td>20,000.00</td>
-                        <td>12,000.00</td>
-                    </tr>
-                    <tr>
-                        <td>02-23</td>
-                        <td>112,000.00</td>
-                        <td>80,000.00</td>
-                        <td>20,000.00</td>
-                        <td>12,000.00</td>
-                    </tr>
-                    <tr>
-                        <td>02-23</td>
-                        <td>112,000.00</td>
-                        <td>80,000.00</td>
-                        <td>20,000.00</td>
-                        <td>12,000.00</td>
-                    </tr>
-                    <tr>
-                        <td>02-23</td>
-                        <td>112,000.00</td>
-                        <td>80,000.00</td>
-                        <td>20,000.00</td>
-                        <td>12,000.00</td>
-                    </tr>
-                    <tr>
-                        <td>02-23</td>
-                        <td>112,000.00</td>
-                        <td>80,000.00</td>
-                        <td>20,000.00</td>
-                        <td>12,000.00</td>
-                    </tr>
+                {
+                    data.map((item, index) => (
+                        <tr key={index}>
+                            <td>{format(new Date(item.date), 'MM-dd')}</td>
+                            <td>{NumberFormater.format(item.income)}</td>
+                            <td>{NumberFormater.format(item.outcome)}</td>
+                            <td>{NumberFormater.format(item.project + item.activity)}</td>
+                            <td>{NumberFormater.format(item.income - item.outcome - item.project - item.activity)}</td>
+                        </tr>
+                    ))
+                }
                 </tbody>
             </table>
         </div>
