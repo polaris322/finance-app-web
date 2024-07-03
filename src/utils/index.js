@@ -28,11 +28,13 @@ export const sendRequest = async (uri, method, payload, isFormData = false) => {
         headers,
         data: payload
     })
-    .then(res => ({
-        success: true,
-        code: res.status,
-        data: res.data
-    }))
+    .then(res => {
+        return {
+            success: true,
+            code: res.status,
+            data: res.data
+        }
+    })
     .catch(err => {
         if (err.response) {
             if (err.response.status === 401) {

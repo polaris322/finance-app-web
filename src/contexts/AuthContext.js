@@ -47,11 +47,11 @@ const AuthProvider = ({ children }) => {
         if (response.success){
             setToken(response.data.token);
             setCookie(AUTH_COOKIE, response.data.token, 1);
-        }      
 
-        const userResponse = await sendRequest(ME, 'GET');
-        if(userResponse.success){
-            setUser(userResponse.data);
+            const userResponse = await sendRequest(ME, 'GET');
+            if(userResponse.success){
+                setUser(userResponse.data);
+            }
         }
 
         return response;

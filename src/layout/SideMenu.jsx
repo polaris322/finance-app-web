@@ -8,7 +8,8 @@ import {
     AiOutlineCalculator,
     AiOutlineCalendar,
     AiOutlineHistory,
-    AiOutlineSetting
+    AiOutlineSetting,
+    AiOutlineBulb
 } from "react-icons/ai";
 import {FaChampagneGlasses} from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
@@ -45,6 +46,11 @@ export const SideMenu = () => {
                 <MenuItem component={<Link to="/history" />} className="text-uppercase fw-bold" active={location.pathname === '/history'}>
                     <div className="d-flex align-items-center">
                         <AiOutlineHistory className="me-1" /> Historico
+                    </div>
+                </MenuItem>
+                <MenuItem component={<Link to="/utilidades" />} className="text-uppercase fw-bold" active={location.pathname === '/utilities'}>
+                    <div className="d-flex align-items-center">
+                        <AiOutlineBulb className="me-1" /> Utilidades
                     </div>
                 </MenuItem>
                 <MenuItem component={<Link to="/projects" />} className="text-uppercase fw-bold" active={location.pathname === '/projects'}>

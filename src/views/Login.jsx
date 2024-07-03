@@ -21,8 +21,8 @@ const Login = () => {
             let response = await login(email, password);
             if (response.success){
                 navigate('/dashboard');
-            }            
-            setError(response.data);
+            }
+            setError("Invalid login credential");
         } catch (error) {
             setError(error.data);
         }

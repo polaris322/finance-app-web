@@ -15,7 +15,6 @@ export const GastoCategoriesChart = ({data}) => {
         }
     })
 
-    console.log(chartData)
     const pieChartOptions = {
         chart: {
             type: 'pie',
