@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal, Form, NavDropdown, Row, Col, InputGroup} from 'react-bootstrap';
+import {Modal, Form, NavDropdown, Row, Col, InputGroup, Alert} from 'react-bootstrap';
 import {BiMoney} from "react-icons/bi";
 import {
     OUTCOME_CATEGORY,
@@ -13,6 +13,7 @@ import {
 import {useDispatch} from "react-redux";
 import {createOutcome, fetchOutcomes} from "../services/OutcomeService";
 import {updateOutcomeList} from "../store/actions/outcomes";
+import {getFirstErrorMessage} from "../utils";
 
 export const EgresoDialog = () => {
     const [show, setShow] = useState(false);
@@ -28,6 +29,8 @@ export const EgresoDialog = () => {
     const [attachment, setAttachment] = useState(null);
     const [note, setNote] = useState('');
     const [cuota, setCuota] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleClose = () => {
         clearForm();
@@ -64,16 +67,26 @@ export const EgresoDialog = () => {
         formData.append('start_date', startDate);
         formData.append('note', note);
 
+        setLoading(true);
         createOutcome(formData).then(res => {
             if (res.success) {
                 fetchOutcomes().then(res => {
                     if (res.success) {
                         dispatch(updateOutcomeList(res.data));
+                        handleClose();
+                    } else {
+                        setError(getFirstErrorMessage(res.data));
                     }
+                    setLoading(false);
+                }).catch(e => {
+                    setError(getFirstErrorMessage(e.data));
+                    setLoading(false);
                 });
             }
+        }).catch(e => {
+            setError(getFirstErrorMessage(e.data));
+            setLoading(false);
         });
-        handleClose();
     }
 
     return (
@@ -92,6 +105,18 @@ export const EgresoDialog = () => {
                 <Modal.Body className="p-4">
                     <h2 className="text-white mb-2 link-underline-success">Egreso</h2>
                     <Form onSubmit={newEgreso} encType="multipart/form-data">
+                        {error ? (
+                            <Alert
+                                className="mb-2"
+                                variant="danger"
+                                onClose={() => setError('')}
+                                dismissible
+                            >
+                                {error}
+                            </Alert>
+                        ) : (
+                            <div />
+                        )}
                         <Row>
                             <Col md={6}>
                                 <Form.Group className="mb-2">
@@ -191,7 +216,7 @@ export const EgresoDialog = () => {
                                 <Form.Group
                                     className="mb-2"
                                 >
-                                    <Form.Label className="fw-bold">Fecha De Inicio*</Form.Label>
+                                    <Form.Label className="fw-bold">Fecha final*</Form.Label>
                                     <Form.Control as="input" type="date" required
                                                   value={startDate}
                                                   onChange={e => setStartDate(e.target.value)}
@@ -235,7 +260,9 @@ export const EgresoDialog = () => {
                                 </Form.Group>
                             </Col>
                             <Col md={12}>
-                                <button className="btn btn-success" type="submit">Submit</button>
+                                <button className="btn btn-success" type="submit" disabled={loading}>
+                                    {loading? 'Submitting ...' : 'Submit'}
+                                </button>
                                 <button className="btn btn-default ms-2" type="button" onClick={handleClose}>Cancel</button>
                             </Col>
                         </Row>

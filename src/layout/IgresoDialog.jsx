@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal, Form, NavDropdown, Row, Col, InputGroup} from 'react-bootstrap';
+import {Modal, Form, NavDropdown, Row, Col, InputGroup, Alert} from 'react-bootstrap';
 import {LiaRecycleSolid} from "react-icons/lia";
 import {useDispatch} from "react-redux";
 import {
@@ -12,6 +12,8 @@ import {
 } from "../config/enums";
 import {createIncome} from "../services/IncomeService";
 import {updateIncomeList} from "../store/actions/incomes";
+import {getFirstErrorMessage} from "../utils";
+import {format} from "date-fns";
 
 export const IgresoDialog = () => {
     const [show, setShow] = useState(false);
@@ -24,6 +26,8 @@ export const IgresoDialog = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [amount, setAmount] = useState(1.00);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleClose = () => {
         clearForm();
@@ -46,13 +50,24 @@ export const IgresoDialog = () => {
      */
     const newIncome = (e) => {
         e.preventDefault();
-        createIncome(incomeName, amount, paymentType, paymentFrequency, paymentMethod, startDate, endDate)
+        setLoading(true);
+        let end = format(new Date(), 'Y-MM-dd') ;
+        if (endDate) {
+            end = endDate
+        }
+        createIncome(incomeName, amount, paymentType, paymentFrequency, paymentMethod, startDate, end)
             .then(res => {
+                setLoading(false);
                 if (res.success) {
                     dispatch(updateIncomeList(res.data));
+                    handleClose();
+                } else {
+                    setError(getFirstErrorMessage(res.data));
                 }
-            });
-        handleClose();
+            }).catch(e => {
+            setError(getFirstErrorMessage(e.data));
+            setLoading(false);
+        });
     }
 
     return (
@@ -71,6 +86,18 @@ export const IgresoDialog = () => {
                 <Modal.Body className="p-4">
                     <h2 className="text-white mb-2 link-underline-success">Ingreso</h2>
                     <Form onSubmit={newIncome}>
+                        {error ? (
+                            <Alert
+                                className="mb-2"
+                                variant="danger"
+                                onClose={() => setError('')}
+                                dismissible
+                            >
+                                {error}
+                            </Alert>
+                        ) : (
+                            <div />
+                        )}
                         <Row>
                             <Col md={6}>
                                 <Form.Group className="mb-2">
@@ -174,7 +201,9 @@ export const IgresoDialog = () => {
                                 </InputGroup>
                             </Col>
                             <Col md={12} className="mt-2">
-                                <button className="btn btn-success" type="submit">Submit</button>
+                                <button className="btn btn-success" type="submit" disabled={loading}>
+                                    {loading? 'Submitting ...' : 'Submit'}
+                                </button>
                                 <button className="btn btn-default ms-2" type="button" onClick={handleClose}>Cancel</button>
                             </Col>
                         </Row>

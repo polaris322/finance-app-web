@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {Modal, Form, NavDropdown, Row, Col, InputGroup} from 'react-bootstrap';
+import {Modal, Form, NavDropdown, Row, Col, InputGroup, Alert} from 'react-bootstrap';
 import {FaPlusCircle} from "react-icons/fa";
 import {FaChampagneGlasses} from "react-icons/fa6";
 import {useDispatch, useSelector} from "react-redux";
 import {PAYMENT_METHOD, PAYMENT_METHOD_ENUM, PAYMENT_STATUS, PAYMENT_STATUS_ENUM} from "../config/enums";
 import {createActivityTask, fetchActivities} from "../services/ActivityService";
 import {updateActivityList} from "../store/actions/activities";
+import {format} from "date-fns";
+import {getFirstErrorMessage} from "../utils";
 
 export const ActividadesDialog = () => {
     const [show, setShow] = useState(false);
@@ -19,6 +21,8 @@ export const ActividadesDialog = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [amount, setAmount] = useState(1.00);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleClose = () => {
         clearForm();
@@ -37,16 +41,32 @@ export const ActividadesDialog = () => {
 
     const newTask = (e) => {
         e.preventDefault();
-        createActivityTask(activityId, taskName, amount, paymentMethod, paymentStatus, startDate, endDate).then(res => {
+        setLoading(true);
+        let end = format(new Date(), 'Y-MM-dd') ;
+        if (endDate) {
+            end = endDate
+        }
+        createActivityTask(activityId, taskName, amount, paymentMethod, paymentStatus, startDate, end).then(res => {
             if (res.success) {
                 fetchActivities().then(res => {
+                    setLoading(false);
                     if (res.success) {
                         dispatch(updateActivityList(res.data));
+                        handleClose();
+                    } else {
+                        setError(getFirstErrorMessage(res.data));
                     }
+                }).catch(e => {
+                    setError(getFirstErrorMessage(e.data));
+                    setLoading(false);
                 });
+            } else {
+                setError(getFirstErrorMessage(res.data));
             }
+        }).catch(e => {
+            setError(getFirstErrorMessage(e.data));
+            setLoading(false);
         });
-        handleClose();
     }
 
     return (
@@ -65,6 +85,18 @@ export const ActividadesDialog = () => {
                 <Modal.Body className="p-4">
                     <h2 className="text-white mb-2 link-underline-success">Actividade</h2>
                     <Form onSubmit={newTask}>
+                        {error ? (
+                            <Alert
+                                className="mb-2"
+                                variant="danger"
+                                onClose={() => setError('')}
+                                dismissible
+                            >
+                                {error}
+                            </Alert>
+                        ) : (
+                            <div />
+                        )}
                         <Row>
                             <Col md={12}>
                                 <Form.Group className="mb-2">
@@ -160,7 +192,9 @@ export const ActividadesDialog = () => {
                                 </InputGroup>
                             </Col>
                             <Col md={12} className="mt-3">
-                                <button className="btn btn-success" type="submit">Submit</button>
+                                <button className="btn btn-success" type="submit" disabled={loading}>
+                                    {loading? 'Submitting ...' : 'Submit'}
+                                </button>
                                 <button className="btn btn-default ms-2" type="button" onClick={handleClose}>Cancel</button>
                             </Col>
                         </Row>

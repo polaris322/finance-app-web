@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {Modal, Form, NavDropdown, Row, Col, InputGroup} from 'react-bootstrap';
+import {Modal, Form, NavDropdown, Row, Col, InputGroup, Alert} from 'react-bootstrap';
 import {FaPlusCircle, FaShareAlt} from "react-icons/fa";
 import {useDispatch, useSelector} from 'react-redux';
 import {PAYMENT_METHOD, PAYMENT_METHOD_ENUM, PAYMENT_STATUS, PAYMENT_STATUS_ENUM} from "../config/enums";
 import {createProjectTask, fetchProjects} from "../services/ProjectService";
 import {updateProjectList} from "../store/actions/projects";
+import {format} from "date-fns";
+import {getFirstErrorMessage} from "../utils";
 
 export const ProyectosDialog = () => {
     const [show, setShow] = useState(false);
@@ -18,6 +20,8 @@ export const ProyectosDialog = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [amount, setAmount] = useState(1.00);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleClose = () => {
         clearForm();
@@ -36,16 +40,32 @@ export const ProyectosDialog = () => {
 
     const newTask = (e) => {
         e.preventDefault();
-        createProjectTask(projectId, taskName, amount, paymentMethod, paymentStatus, startDate, endDate).then(res => {
+        setLoading(true);
+        let end = format(new Date(), 'Y-MM-dd') ;
+        if (endDate) {
+            end = endDate
+        }
+        createProjectTask(projectId, taskName, amount, paymentMethod, paymentStatus, startDate, end).then(res => {
             if (res.success) {
                 fetchProjects().then(res => {
+                    setLoading(false);
                     if (res.success) {
                         dispatch(updateProjectList(res.data));
+                        handleClose();
+                    } else {
+                        setError(getFirstErrorMessage(res.data));
                     }
+                }).catch(e => {
+                    setError(getFirstErrorMessage(e.data));
+                    setLoading(false);
                 });
+            } else {
+                setError(getFirstErrorMessage(res.data));
             }
+        }).catch(e => {
+            setError(getFirstErrorMessage(e.data));
+            setLoading(false);
         });
-        handleClose();
     }
 
     return (
@@ -64,6 +84,18 @@ export const ProyectosDialog = () => {
                 <Modal.Body className="p-4">
                     <h2 className="text-white mb-2 link-underline-success">Proyecto</h2>
                     <Form onSubmit={newTask}>
+                        {error ? (
+                            <Alert
+                                className="mb-2"
+                                variant="danger"
+                                onClose={() => setError('')}
+                                dismissible
+                            >
+                                {error}
+                            </Alert>
+                        ) : (
+                            <div />
+                        )}
                         <Row>
                             <Col md={12}>
                                 <Form.Group className="mb-2">
@@ -159,7 +191,9 @@ export const ProyectosDialog = () => {
                                 </InputGroup>
                             </Col>
                             <Col md={12} className="mt-3">
-                                <button className="btn btn-success" type="submit">Submit</button>
+                                <button className="btn btn-success" type="submit" disabled={loading}>
+                                    {loading? 'Submitting ...' : 'Submit'}
+                                </button>
                                 <button className="btn btn-default ms-2" type="button" onClick={handleClose}>Cancel</button>
                             </Col>
                         </Row>

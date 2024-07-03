@@ -43,7 +43,7 @@ export const sendRequest = async (uri, method, payload, isFormData = false) => {
             return {
                 success: false,
                 code: err.response.status,
-                data: err.response.data.message
+                data: err.response.data
             };
         }
         return {
@@ -89,3 +89,18 @@ export const NumberFormater = new Intl.NumberFormat('en-US', {
 export const getObjectByValue = (obj, value) => {
     return obj.find(item => item.value === value);
 };
+
+export function getFirstErrorMessage(responseObj) {
+    if (responseObj && responseObj.errors) {
+        const errorEntries = Object.entries(responseObj.errors);
+        if (errorEntries.length > 0) {
+            const [, errorValue] = errorEntries[0];
+            if (Array.isArray(errorValue)) {
+                return errorValue[0];
+            } else if (typeof errorValue === 'string') {
+                return errorValue;
+            }
+        }
+    }
+    return null; // Return null if no error message is found
+}
