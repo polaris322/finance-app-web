@@ -5,6 +5,7 @@ import { registerUser } from '../services/AuthService';
 import {AiFillMail, AiFillPhone, AiOutlineApple, AiOutlineGoogle} from "react-icons/ai";
 import {FaLock, FaUser} from "react-icons/fa";
 import SignInImage from "../assets/images/3528479.png";
+import Logo from "../assets/images/logo.png";
 
 const Register = () => {
     const [firstName, setFirstName] = useState('');
@@ -35,7 +36,11 @@ const Register = () => {
         <div className="sign-in__wrapper main-background">
             <div className="row w-75 justify-content-center login-form d-flex align-items-center">
                 <div className="col-md-6 px-md-5 px-0">
-                    <h1 className="text-white text-center mb-4">PF Controls</h1>
+                    <div className="w-100">
+                        <div className="bg-white text-center mb-3 rounded-3 m-auto" style={{width: 160}}>
+                            <img src={Logo} width={150} alt="logo"/>
+                        </div>
+                    </div>
                     <form onSubmit={handleSubmit} className="login-wrap bg-light-green py-5 rounded-5">
                         {/* ALert */}
                         {error ? (
@@ -82,12 +87,12 @@ const Register = () => {
                         </div>
                         <div className="form-group mt-4">
                             {!loading ? (
-                                <Button className="btn w-100 btn-dark submit px-3"
+                                <Button className="btn w-100 btn-dark submit px-3 py-2 h5"
                                         variant="primary" type="submit">
                                     Sign Up
                                 </Button>
                             ) : (
-                                <Button className="btn w-100 btn-dark submit px-3"
+                                <Button className="btn w-100 btn-dark submit px-3 py-2 h5"
                                         variant="primary" type="submit" disabled>
                                     Signing Up...
                                 </Button>

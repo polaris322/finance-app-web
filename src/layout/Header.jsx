@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
-import logo from "../assets/images/logo.webp";
+import logo from "../assets/images/logo-banner.png";
 import avatar from "../assets/images/user.png";
 import {AuthContext} from "../contexts/AuthContext";
 import {FaPlusCircle, FaShareAlt} from "react-icons/fa";
@@ -19,10 +19,6 @@ const HeaderBar = () => {
             <Navbar.Brand href="/">
                 <div className="d-flex align-items-center ms-md-5 ms-1">
                     <img src={logo} alt="logo" className="logo"/>
-                    <div className="text-uppercase ms-2">
-                        <div className="fs-4 fw-bold mb-0">My Personal Control</div>
-                        <div className="fs-6">Optimizando tus ingresos</div>
-                    </div>
                 </div>
             </Navbar.Brand>
             <Navbar.Collapse id="basic-navbar-nav">

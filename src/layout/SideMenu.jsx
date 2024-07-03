@@ -48,7 +48,7 @@ export const SideMenu = () => {
                         <AiOutlineHistory className="me-1" /> Historico
                     </div>
                 </MenuItem>
-                <MenuItem component={<Link to="/utilidades" />} className="text-uppercase fw-bold" active={location.pathname === '/utilities'}>
+                <MenuItem component={<Link to="/utilities" />} className="text-uppercase fw-bold" active={location.pathname === '/utilities'}>
                     <div className="d-flex align-items-center">
                         <AiOutlineBulb className="me-1" /> Utilidades
                     </div>

@@ -5,6 +5,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import SignInImage from "../assets/images/Group 1.png";
 import {FaLock} from "react-icons/fa";
 import {AiFillMail, AiOutlineApple, AiOutlineGoogle} from "react-icons/ai";
+import Logo from "../assets/images/logo.png";
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -33,7 +34,11 @@ const Login = () => {
         <div className="sign-in__wrapper main-background">
             <div className="row w-75 justify-content-center login-form d-flex align-items-center">
                 <div className="col-md-6 px-md-5 px-0">
-                    <h1 className="text-white text-center mb-4">PF Controls</h1>
+                    <div className="w-100">
+                        <div className="bg-white text-center mb-3 rounded-3 m-auto" style={{width: 160}}>
+                            <img src={Logo} width={150} alt="logo"/>
+                        </div>
+                    </div>
                     <form onSubmit={handleSubmit} className="login-wrap bg-light-green py-5 rounded-5">
                         {/* ALert */}
                         {error ? (
@@ -68,12 +73,12 @@ const Login = () => {
                         </div>
                         <div className="form-group mt-3">
                             {!loading ? (
-                                <Button className="btn w-100 btn-dark submit px-3"
+                                <Button className="btn w-100 btn-dark submit px-3 py-2 h5"
                                         variant="primary" type="submit">
                                     Log In
                                 </Button>
                             ) : (
-                                <Button className="btn w-100 btn-dark submit px-3"
+                                <Button className="btn w-100 btn-dark submit px-3 py-2 h5"
                                         variant="primary" type="submit" disabled>
                                     Logging In...
                                 </Button>
@@ -84,7 +89,7 @@ const Login = () => {
                     <div className="bg-light-green rounded-5 mt-4 py-4 px-5">
                         <div className="row d-flex align-items-center">
                             <div className="col-md-6 divider text-center">
-                                <div className='fs-5 mb-2 line-height-1'>You do not <br/> have an account?</div>
+                                <div className='fs-5 mb-2 line-height-1'>You do not have an account?</div>
                                 <Link to="/register" className="btn btn-dark">Sign Up</Link>
                             </div>
                             <div className="col-md-6 text-center">
