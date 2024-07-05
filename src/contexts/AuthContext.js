@@ -12,7 +12,12 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const dispatch = useDispatch();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone: ''
+    });
     const [token, setToken] = useState(getCookie(AUTH_COOKIE) || null);
 
     useEffect(() => {

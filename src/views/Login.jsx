@@ -69,7 +69,7 @@ const Login = () => {
                             <div className="form-group d-md-flex">
                                 <input type="checkbox" className="me-1" /> Remember me
                             </div>
-                            <Link to="/forgot-password" className="text-black">Forgot Password</Link>
+                            <Link to="/#" className="text-black">Forgot Password</Link>
                         </div>
                         <div className="form-group mt-3">
                             {!loading ? (

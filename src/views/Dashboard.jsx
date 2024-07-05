@@ -19,6 +19,7 @@ import {
 const Dashboard = () => {
     const [grossIncome, setGrossIncome] = useState(0);
     const [grossOutcome, setGrossOutcome] = useState(0);
+    const [grossAhorro, setGrossAhorro] = useState(0);
     const [grossOutcomePending, setGrossOutcomePending] = useState(0);
     const [grossOutcomeFinished, setGrossOutcomeFinished] = useState(0);
     const [outcomeByCategory, setOutcomeByCategory] = useState([]);
@@ -32,7 +33,8 @@ const Dashboard = () => {
         fetchGrossStatistics(year, month).then(res => {
             if (res.success) {
                 setGrossIncome(res.data.income);
-                setGrossOutcome(res.data.outcome);
+                setGrossOutcome(res.data.outcome - res.data.ahorro);
+                setGrossAhorro(res.data.ahorro);
             }
         });
         fetchGrossOutcomeStatistics(year, month).then(res => {
@@ -82,7 +84,7 @@ const Dashboard = () => {
                     <div className="p-3 rounded-4 bg-dark-green shadow-lg">
                         <Carousel interval={null} indicators={false} fade={false} className="h-100">
                             <CarouselItem>
-                                <Ahorro3DChart income={grossIncome} outcome={grossOutcome} ahorro={grossIncome - grossOutcome} />
+                                <Ahorro3DChart income={grossIncome} outcome={grossOutcome} ahorro={grossAhorro} />
                             </CarouselItem>
                             <CarouselItem>
                                 <GastoCategoriesChart data={outcomeByCategory} />

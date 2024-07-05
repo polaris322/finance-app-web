@@ -5,7 +5,7 @@ import {FaHome, FaShareAlt} from "react-icons/fa";
 import {BiMoney} from "react-icons/bi";
 import {
     AiFillMail,
-    AiOutlineCalculator,
+    // AiOutlineCalculator,
     AiOutlineCalendar,
     AiOutlineHistory,
     AiOutlineSetting,
@@ -68,11 +68,11 @@ export const SideMenu = () => {
                         <AiOutlineCalendar className="me-1" /> Calendario
                     </div>
                 </MenuItem>
-                <MenuItem component={<Link to="/calculator" />} className="text-uppercase fw-bold" active={location.pathname === '/calculator'}>
+                {/*<MenuItem component={<Link to="/calculator" />} className="text-uppercase fw-bold" active={location.pathname === '/calculator'}>
                     <div className="d-flex align-items-center">
                         <AiOutlineCalculator className="me-1" /> Calculadora
                     </div>
-                </MenuItem>
+                </MenuItem>*/}
                 <MenuItem component={<Link to="/configuration" />} className="text-uppercase fw-bold" active={location.pathname === '/configuration'}>
                     <div className="d-flex align-items-center">
                         <AiOutlineSetting className="me-1" /> Configuración

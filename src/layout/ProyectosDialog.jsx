@@ -77,7 +77,7 @@ export const ProyectosDialog = () => {
                     handleShow();
                 }}
             >
-                <FaShareAlt /> Proyectos
+                <FaShareAlt /> Proyecto
             </NavDropdown.Item>
 
             <Modal show={show} onHide={handleClose} size="lg">

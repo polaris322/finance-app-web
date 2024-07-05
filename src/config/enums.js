@@ -16,13 +16,25 @@ export const PAYMENT_METHOD = [
         name: 'Popular',
         icon: '',
         value: "2"
+    },
+    {
+        name: 'Fundo de emergencia',
+        icon: '',
+        value: "3"
+    },
+    {
+        name: 'Ahorro',
+        icon: '',
+        value: "4"
     }
 ];
 
 export const PAYMENT_METHOD_ENUM = {
     SCOTIABANK: "0",
     BANRESERVAS: "1",
-    POPULAR: "2"
+    POPULAR: "2",
+    EMERGENCY: "3",
+    AHORRO: "4"
 };
 
 export const PAYMENT_STATUS = [

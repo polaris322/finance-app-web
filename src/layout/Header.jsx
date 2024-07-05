@@ -10,6 +10,7 @@ import {EgresoDialog} from "./EgresoDialog";
 import {IgresoDialog} from "./IgresoDialog";
 import {ProyectosDialog} from "./ProyectosDialog";
 import {ActividadesDialog} from "./ActividadesDialog";
+import {UtilidadesDialog} from "./UtilidadesDialog";
 
 const HeaderBar = () => {
     const { user, logout } = useContext(AuthContext);
@@ -34,6 +35,7 @@ const HeaderBar = () => {
                         }>
                         <EgresoDialog />
                         <IgresoDialog />
+                        <UtilidadesDialog />
                         <ProyectosDialog />
                         <ActividadesDialog />
                     </NavDropdown>

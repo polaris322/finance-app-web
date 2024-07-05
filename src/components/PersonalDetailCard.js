@@ -39,6 +39,14 @@ const PersonalDetailCard = () => {
                         {user.email}
                     </div>
                 </div>
+                <div className="w-100 mt-2">
+                    <div className="text-white text-decoration-underline h5 mb-0">
+                        Teléfono
+                    </div>
+                    <div className="h4 ms-md-5 ms-0">
+                        {user.phone}
+                    </div>
+                </div>
             </div>
         </div>
     )
