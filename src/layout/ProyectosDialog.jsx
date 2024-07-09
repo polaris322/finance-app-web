@@ -41,7 +41,7 @@ export const ProyectosDialog = () => {
     const newTask = (e) => {
         e.preventDefault();
         setLoading(true);
-        let end = format(new Date(), 'Y-MM-dd') ;
+        let end = format(new Date(), 'y-MM-dd') ;
         if (endDate) {
             end = endDate
         }

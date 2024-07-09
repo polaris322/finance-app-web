@@ -173,26 +173,21 @@ export const EgresoDialog = () => {
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
-                            {
-                                /* Dynamic payment only */
-                                paymentType === PAYMENT_TYPE_ENUM.DYNAMIC && (
-                                    <Col md={6}>
-                                        <Form.Group className="mb-2">
-                                            <Form.Label className="fw-bold">Frecuencia*</Form.Label>
-                                            <Form.Select
-                                                value={paymentFrequency}
-                                                onChange={e => setPaymentFrequency(e.target.value)}
-                                                className="bg-light-green border-green">
-                                                {
-                                                    PAYMENT_FREQUENCY.map((item, index) => (
-                                                        <option value={item.value} key={index}>{item.name}</option>
-                                                    ))
-                                                }
-                                            </Form.Select>
-                                        </Form.Group>
-                                    </Col>
-                                )
-                            }
+                            <Col md={6}>
+                                <Form.Group className="mb-2">
+                                    <Form.Label className="fw-bold">Frecuencia*</Form.Label>
+                                    <Form.Select
+                                        value={paymentFrequency}
+                                        onChange={e => setPaymentFrequency(e.target.value)}
+                                        className="bg-light-green border-green">
+                                        {
+                                            PAYMENT_FREQUENCY.map((item, index) => (
+                                                <option value={item.value} key={index}>{item.name}</option>
+                                            ))
+                                        }
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
                             <Col md={6}>
                                 <Form.Label className="fw-bold">Cutoas Totales</Form.Label>
                                 <InputGroup className="mb-2">

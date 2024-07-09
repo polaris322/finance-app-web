@@ -3,6 +3,7 @@ import {getObjectByValue, NumberFormater} from "../utils";
 import {PAYMENT_METHOD, PAYMENT_STATUS_ENUM} from "../config/enums";
 import {AiOutlineCheck, AiOutlineClockCircle} from "react-icons/ai";
 import {format} from "date-fns";
+import GanttChart from "./GanttChart";
 
 export const ProjectTable = ({data, id, onUpdateStatus, onUpdate}) => {
     const updateStatus = (taskId, status) => {
@@ -66,6 +67,9 @@ export const ProjectTable = ({data, id, onUpdateStatus, onUpdate}) => {
                 }
                 </tbody>
             </table>
+            <div className="mt-3 w-100">
+                <GanttChart data={data}/>
+            </div>
         </div>
     )
 }
