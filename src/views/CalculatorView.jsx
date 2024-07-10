@@ -1,10 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from "../layout/Layout";
 import {AiOutlineCalculator} from "react-icons/ai";
 import {CalculatorTable} from "../components/CalculatorTable";
-import {NumberFormater} from "../utils";
+import {PAYMENT_FREQUENCY, PAYMENT_FREQUENCY_ENUM} from "../config/enums";
+import {fetchTotalBalance} from "../services/StatisticsService";
 
 export const CalculatorView = () => {
+    const [cuota, setCuota] = useState('');
+    const [balance, setBalance] = useState('');
+    const [frequency, setFrequency] = useState(PAYMENT_FREQUENCY_ENUM.MONTHLY);
+    const [duration, setDuration] = useState('');
+    const [interest, setInterest] = useState(2.5);
+
+    useEffect(() => {
+        fetchTotalBalance().then(res => {
+            if (res.success) {
+                setBalance(res.data.income - res.data.outcome);
+            }
+        })
+    }, []);
+
     return (
         <Layout>
             <h2 className="text-uppercase d-flex align-items-center">
@@ -26,53 +41,66 @@ export const CalculatorView = () => {
                                     Insoluto
                                 </div>
                             </div>
-                            <div className="row">
+                            <div className="row mt-2">
                                 <div className="col-md-6 text-end">
                                     Mento:
                                 </div>
                                 <div className="col-md-6 text-white">
-                                    {NumberFormater.format(459000)}
+                                    <input type="number" className="fw-bold text-white bg-light-green border-0 rounded-1"
+                                           value={balance} onChange={e => setBalance(e.target.value)} />
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-4 border-end border-black">
                             <div className="row">
                                 <div className="col-md-6 text-end">
-                                    Interes:
+                                    % Interes:
                                 </div>
                                 <div className="col-md-6 text-white">
-                                    Insoluto
+                                    <input type="number" className="fw-bold text-white border-0 bg-light-green border-green rounded-1"
+                                           value={interest} onChange={e => setInterest(e.target.value)} />
                                 </div>
                             </div>
-                            <div className="row">
+                            <div className="row mt-2">
                                 <div className="col-md-6 text-end">
                                     Frecuencia:
                                 </div>
                                 <div className="col-md-6 text-white">
-                                    {NumberFormater.format(459000)}
+                                    <select
+                                        value={frequency}
+                                        onChange={e => setFrequency(e.target.value)}
+                                        className="fw-bold text-white border-0 bg-light-green border-green rounded-1">
+                                        {
+                                            PAYMENT_FREQUENCY.map((item, index) => (
+                                                <option value={item.value} key={index} className="bg-secondary">{item.name}</option>
+                                            ))
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-4">
                             <div className="row">
                                 <div className="col-md-6 text-end">
+                                    Tiempo:
+                                </div>
+                                <div className="col-md-6 text-white">
+                                    <input type="number" className="fw-bold text-white border-0 bg-light-green border-green rounded-1"
+                                           value={duration} onChange={e => setDuration(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="row mt-2">
+                                <div className="col-md-6 text-end">
                                     Cuotas:
                                 </div>
                                 <div className="col-md-6 text-white">
-                                    Insoluto
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6 text-end">
-                                    Fecha Inicio:
-                                </div>
-                                <div className="col-md-6 text-white">
-                                    {NumberFormater.format(459000)}
+                                    <input type="number" className="fw-bold text-white border-0 bg-light-green border-green rounded-1"
+                                           value={cuota} onChange={e => setCuota(e.target.value)} />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <CalculatorTable />
+                    <CalculatorTable balance={balance} duration={duration} cutoa={cuota} interest={interest} />
                 </div>
             </div>
         </Layout>

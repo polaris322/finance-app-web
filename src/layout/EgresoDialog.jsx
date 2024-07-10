@@ -233,7 +233,7 @@ export const EgresoDialog = () => {
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
-                            <Col md={paymentType === PAYMENT_TYPE_ENUM.FIXED ? 12 : 6}>
+                            <Col md={6}>
                                 <Form.Group className="mb-2 fw-bold">
                                     <Form.Label>Factura</Form.Label>
                                     <Form.Control type="file"

@@ -1,6 +1,6 @@
-export const DOMAIN = "http://localhost:8000";
+// export const DOMAIN = "http://localhost:8000";
 export const DOMAIN = "https://apis.personalfinancialcontrol.com";
-// export const BASE_URL = DOMAIN + "/api";
+export const BASE_URL = DOMAIN + "/api";
 export const LOGIN = "/login";
 export const REGISTER = "/register";
 export const LOGOUT = "/logout";
