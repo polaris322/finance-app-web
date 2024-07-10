@@ -5,7 +5,7 @@ import {
     AiOutlineCheck,
     AiOutlineClockCircle, AiOutlineMessage
 } from "react-icons/ai";
-import {getObjectByValue, NumberFormater} from "../utils";
+import {getNextPaymentDate, getObjectByValue, NumberFormater} from "../utils";
 import { format } from "date-fns";
 import {DOMAIN} from "../config/API";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
@@ -78,7 +78,7 @@ export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, on
                             </td>
                             <td>
                                 <div className="d-flex align-items-center justify-content-between">
-                                    {format(new Date(item.payment_date), 'MM-dd-yy')}
+                                    {format(getNextPaymentDate(item.frequency, item.payment_date), 'MM-dd-y')}
                                     <button
                                         onClick={(e) => {
                                             // pending

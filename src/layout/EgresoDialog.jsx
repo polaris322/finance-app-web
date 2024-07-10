@@ -6,7 +6,7 @@ import {
     OUTCOME_CATEGORY_ENUM,
     PAYMENT_FREQUENCY, PAYMENT_FREQUENCY_ENUM,
     PAYMENT_METHOD, PAYMENT_METHOD_ENUM,
-    PAYMENT_STATUS, PAYMENT_STATUS_ENUM,
+    PAYMENT_STATUS_ENUM,
     PAYMENT_TYPE,
     PAYMENT_TYPE_ENUM
 } from "../config/enums";
@@ -25,7 +25,7 @@ export const EgresoDialog = () => {
     const [startDate, setStartDate] = useState('');
     const [amount, setAmount] = useState(1.00);
     const [outcomeCategory, setOutcomeCategory] = useState(OUTCOME_CATEGORY_ENUM.LOAN);
-    const [paymentStatus, setPaymentStatus] = useState(PAYMENT_STATUS_ENUM.FINISHED);
+    const [paymentStatus, setPaymentStatus] = useState(PAYMENT_STATUS_ENUM.PENDING);
     const [attachment, setAttachment] = useState(null);
     const [note, setNote] = useState('');
     const [cuota, setCuota] = useState('');
@@ -41,20 +41,29 @@ export const EgresoDialog = () => {
         setOutcomeCategory(OUTCOME_CATEGORY_ENUM.LOAN);
         setPaymentFrequency(PAYMENT_FREQUENCY_ENUM.MONTHLY);
         setOutcomeName('');
-        setPaymentStatus(PAYMENT_STATUS_ENUM.FINISHED);
+        setPaymentStatus(PAYMENT_STATUS_ENUM.PENDING);
         setAmount(1.00);
         setCuota('');
         setNote('');
         setAttachment(null);
         setStartDate('');
         setPaymentType(PAYMENT_TYPE_ENUM.DYNAMIC);
-        setPaymentMethod('0');
+        setPaymentMethod(PAYMENT_METHOD_ENUM.SCOTIABANK);
+        setError('');
     }
 
     const newEgreso = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
+
+        // file size
+        if (attachment && attachment.size / 2097152 > 2) {
+            setError('El tamaño del archivo debe ser inferior a 2MB.');
+            handleShow();
+            return;
+        }
+
         formData.append('attachment', attachment);
         formData.append('name', outcomeName);
         formData.append('amount', amount);
@@ -211,29 +220,14 @@ export const EgresoDialog = () => {
                                 <Form.Group
                                     className="mb-2"
                                 >
-                                    <Form.Label className="fw-bold">Fecha final*</Form.Label>
+                                    <Form.Label className="fw-bold">Fecha Inicial*</Form.Label>
                                     <Form.Control as="input" type="date" required
                                                   value={startDate}
                                                   onChange={e => setStartDate(e.target.value)}
                                                   className="bg-light-green border-green"/>
                                 </Form.Group>
                             </Col>
-                            <Col md={6}>
-                                <Form.Group className="mb-2 fw-bold">
-                                    <Form.Label>Estado*</Form.Label>
-                                    <Form.Select
-                                        value={paymentStatus}
-                                        onChange={e => setPaymentStatus(e.target.value)}
-                                        className="bg-light-green border-green">
-                                        {
-                                            PAYMENT_STATUS.map((item, index) => (
-                                                <option value={item.value} key={index}>{item.name}</option>
-                                            ))
-                                        }
-                                    </Form.Select>
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
+                            <Col md={12}>
                                 <Form.Group className="mb-2 fw-bold">
                                     <Form.Label>Factura</Form.Label>
                                     <Form.Control type="file"

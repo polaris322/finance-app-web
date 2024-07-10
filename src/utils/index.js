@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {BASE_URL} from '../config/API';
 import {AUTH_COOKIE} from '../config/key';
+import {PAYMENT_FREQUENCY_ENUM} from "../config/enums";
+import {addMonths} from "date-fns";
 
 export const sendRequest = async (uri, method, payload, isFormData = false) => {
     const auth = getCookie(AUTH_COOKIE);
@@ -103,4 +105,19 @@ export function getFirstErrorMessage(responseObj) {
         }
     }
     return null; // Return null if no error message is found
+}
+
+export function getNextPaymentDate(frequency, currentDate) {
+    switch (frequency) {
+        case PAYMENT_FREQUENCY_ENUM.MONTHLY:
+            return addMonths(currentDate, 1);
+        case PAYMENT_FREQUENCY_ENUM.ANNUALLY:
+            return addMonths(currentDate, 12);
+        case PAYMENT_FREQUENCY_ENUM.QUART_YEARLY:
+            return addMonths(currentDate, 3);
+        case PAYMENT_FREQUENCY_ENUM.SEMI_YEARLY:
+            return addMonths(currentDate, 6);
+        default:
+            return new Date(currentDate);
+    }
 }

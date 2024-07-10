@@ -98,7 +98,6 @@ export const PAYMENT_FREQUENCY_ENUM = {
     MONTHLY: '2',
     ANNUALLY: "3",
     ONE_TIEM: '4'
-
 };
 
 export const OUTCOME_CATEGORY = [

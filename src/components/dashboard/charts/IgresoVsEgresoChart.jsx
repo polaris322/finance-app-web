@@ -40,7 +40,8 @@ export const SaturationChart = ({income, outcome}) => {
                 dataLabels: [{
                     enabled: true,
                     distance: -50,
-                    format: '{point.percentage:.1f}%',
+                    // eslint-disable-next-line
+                    format: '{point.percentage:.1f}% <br>=${point.y}',
                     style: {
                         fontSize: '1.2em',
                         color: '#fff',
