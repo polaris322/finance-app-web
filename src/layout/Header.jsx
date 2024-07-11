@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import {Navbar, Nav, NavDropdown} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from "react";
+import {Navbar, Nav, NavDropdown, Tooltip, OverlayTrigger} from "react-bootstrap";
 import logo from "../assets/images/logo-banner.png";
 import avatar from "../assets/images/user.png";
 import {AuthContext} from "../contexts/AuthContext";
@@ -11,9 +11,111 @@ import {IgresoDialog} from "./IgresoDialog";
 import {ProyectosDialog} from "./ProyectosDialog";
 import {ActividadesDialog} from "./ActividadesDialog";
 import {UtilidadesDialog} from "./UtilidadesDialog";
+import {
+    OUTCOME_CATEGORY_ENUM,
+    PAYMENT_FREQUENCY_ENUM,
+    PAYMENT_METHOD_ENUM,
+    PAYMENT_STATUS_ENUM,
+    PAYMENT_TYPE_ENUM
+} from "../config/enums";
+import {getBalanceByMonth} from "../services/StatisticsService";
+import {createOutcome, fetchOutcomes} from "../services/OutcomeService";
+import {updateOutcomeList} from "../store/actions/outcomes";
+import {getFirstErrorMessage} from "../utils";
+import {useDispatch} from "react-redux";
+import {format} from "date-fns";
 
 const HeaderBar = () => {
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const { user, logout } = useContext(AuthContext);
+    const [balance, setBalance] = useState();
+
+    useEffect(() => {
+        getBalanceByMonth().then(res => {
+            if (res.success) {
+                setBalance(res.data.balance);
+            }
+        });
+    }, []);
+
+    const saveEmergency = () => {
+        const formData = new FormData();
+        formData.append('name', 'Fondo de emergencia');
+        formData.append('amount', balance);
+        formData.append('cuotas', 1);
+        formData.append('category', OUTCOME_CATEGORY_ENUM.OTHER);
+        formData.append('status', PAYMENT_STATUS_ENUM.PENDING);
+        formData.append('type', PAYMENT_TYPE_ENUM.FIXED);
+        formData.append('frequency', PAYMENT_FREQUENCY_ENUM.ONE_TIEM);
+        formData.append('payment_method', PAYMENT_METHOD_ENUM.EMERGENCY);
+        formData.append('start_date', format(new Date(), 'y-MM-dd'));
+
+        setLoading(true);
+        createOutcome(formData).then(res => {
+            if (res.success) {
+                fetchOutcomes().then(res => {
+                    getBalanceByMonth().then(balanceRes => {
+                        if (balanceRes.success) {
+                            setBalance(balanceRes.data.balance);
+                        }
+
+                        if (res.success) {
+                            dispatch(updateOutcomeList(res.data));
+                        } else {
+                            console.log(getFirstErrorMessage(res.data));
+                        }
+                    });
+                    setLoading(false);
+                }).catch(e => {
+                    console.log(getFirstErrorMessage(e.data));
+                    setLoading(false);
+                });
+            }
+        }).catch(e => {
+            console.log(getFirstErrorMessage(e.data));
+            setLoading(false);
+        });
+    }
+
+    const saveAhorro= () => {
+        const formData = new FormData();
+        formData.append('name', 'Ahorro');
+        formData.append('amount', balance);
+        formData.append('cuotas', 1);
+        formData.append('category', OUTCOME_CATEGORY_ENUM.OTHER);
+        formData.append('status', PAYMENT_STATUS_ENUM.PENDING);
+        formData.append('type', PAYMENT_TYPE_ENUM.FIXED);
+        formData.append('frequency', PAYMENT_FREQUENCY_ENUM.ONE_TIEM);
+        formData.append('payment_method', PAYMENT_METHOD_ENUM.AHORRO);
+        formData.append('start_date', format(new Date(), 'y-MM-dd'));
+
+        setLoading(true);
+        createOutcome(formData).then(res => {
+            if (res.success) {
+                fetchOutcomes().then(res => {
+                    getBalanceByMonth().then(balanceRes => {
+                        if (balanceRes.success) {
+                            setBalance(balanceRes.data.balance);
+                        }
+
+                        if (res.success) {
+                            dispatch(updateOutcomeList(res.data));
+                        } else {
+                            console.log(getFirstErrorMessage(res.data));
+                        }
+                    });
+                    setLoading(false);
+                }).catch(e => {
+                    console.log(getFirstErrorMessage(e.data));
+                    setLoading(false);
+                });
+            }
+        }).catch(e => {
+            console.log(getFirstErrorMessage(e.data));
+            setLoading(false);
+        });
+    }
 
     return (
         <Navbar bg="light" variant="light" expand="lg" className="bg-white">
@@ -40,12 +142,27 @@ const HeaderBar = () => {
                         <ActividadesDialog />
                     </NavDropdown>
                     <Nav.Item>
-                        <button className="btn">
-                            <AiFillBell className="fs-4" />
-                        </button>
-                        <button className="btn">
-                            <FaShareAlt className="fs-4" />
-                        </button>
+                        <OverlayTrigger
+                            placement="bottom"
+                            delay={{ show: 250, hide: 400 }}
+                            trigger={['hover', 'focus', 'click']}
+                            overlay={<Tooltip id="button-tooltip">Transferencia de ingresos directamente a fondo de emergencia.</Tooltip>}
+                        >
+                            <button className="btn" disabled={loading} onClick={saveEmergency}>
+                                <AiFillBell className="fs-4" />
+                            </button>
+                        </OverlayTrigger>
+
+                        <OverlayTrigger
+                            placement="bottom"
+                            delay={{ show: 250, hide: 400 }}
+                            trigger={['hover', 'focus', 'click']}
+                            overlay={<Tooltip id="button-tooltip">Transferencia de ingresos directamente an ahorro.</Tooltip>}
+                        >
+                            <button className="btn" disabled={loading} onClick={saveAhorro}>
+                                <FaShareAlt className="fs-4" />
+                            </button>
+                        </OverlayTrigger>
                     </Nav.Item>
                     <NavDropdown
                         className="no-caret"

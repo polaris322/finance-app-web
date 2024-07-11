@@ -13,6 +13,7 @@ export const TASK = '/tasks';
 export const UPDATE_STATUS = '/update-status';
 export const STATISTICS = '/statistics';
 export const BALANCE = '/get-balance';
+export const BALANCE_BY_MONTH = '/get-balance-by-month';
 export const DAILY_HISTORY = '/gross-daily';
 export const GROSS = '/gross';
 export const GROSS_OUTCOME = '/gross-outcome';

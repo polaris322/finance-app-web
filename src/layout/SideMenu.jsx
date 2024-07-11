@@ -15,7 +15,7 @@ import {FaChampagneGlasses} from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
 import {BsWhatsapp} from "react-icons/bs";
 
-export const SideMenu = () => {
+export const SideMenu = ({onHide}) => {
     const location = useLocation();
 
     return (
@@ -79,6 +79,11 @@ export const SideMenu = () => {
                     </div>
                 </MenuItem>
             </Menu>
+            <div className="text-end mt-5">
+                <button className="bg-transparent border-0">
+                    <span aria-hidden="true" className="carousel-control-prev-icon text-success" onClick={onHide}/>
+                </button>
+            </div>
             <div className="px-3 py-5 w-100 position-absolute bottom-0">
                 <div className="fs-5 fw-bold">
                     Escribenos

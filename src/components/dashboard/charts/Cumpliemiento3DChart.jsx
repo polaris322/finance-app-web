@@ -5,6 +5,9 @@ highcharts3d(Highcharts);
 
 export const Cumpliemiento3DChart = ({paid, pending}) => {
     const pieChartOptions = {
+        credits: {
+            enabled: false
+        },
         chart: {
             type: 'pie',
             backgroundColor: '#5cdcd2',
@@ -39,10 +42,10 @@ export const Cumpliemiento3DChart = ({paid, pending}) => {
                     enabled: true,
                     distance: -50,
                     // eslint-disable-next-line
-                    format: '{point.percentage:.1f}% <br>=${point.y}',
+                    format: '${point.y}',
                     style: {
                         fontSize: '1.2em',
-                        color: '#fff',
+                        color: '#000',
                         textOutline: 'none',
                         opacity: 1
                     },

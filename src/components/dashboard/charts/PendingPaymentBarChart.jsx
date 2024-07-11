@@ -45,6 +45,9 @@ const PendingPaymentBarChart = ({data}) => {
                 }
             }
         },
+        credits: {
+            enabled: false
+        },
         legend: {
             enabled: false // Set to false to hide the legend
         },

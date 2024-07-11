@@ -3,22 +3,17 @@ import Layout from "../layout/Layout";
 import {AiOutlineCalculator} from "react-icons/ai";
 import {CalculatorTable} from "../components/CalculatorTable";
 import {PAYMENT_FREQUENCY, PAYMENT_FREQUENCY_ENUM} from "../config/enums";
-import {fetchTotalBalance} from "../services/StatisticsService";
 
 export const CalculatorView = () => {
-    const [cuota, setCuota] = useState('');
+    const [cuota, setCuota] = useState(0);
     const [balance, setBalance] = useState('');
     const [frequency, setFrequency] = useState(PAYMENT_FREQUENCY_ENUM.MONTHLY);
     const [duration, setDuration] = useState('');
     const [interest, setInterest] = useState(2.5);
 
     useEffect(() => {
-        fetchTotalBalance().then(res => {
-            if (res.success) {
-                setBalance(res.data.income - res.data.outcome);
-            }
-        })
-    }, []);
+        setCuota(parseFloat(balance * ( interest / 100 ) / (1 - Math.pow(1 + interest / 100, -duration))).toFixed(2));
+    }, [balance, interest, duration]);
 
     return (
         <Layout>
@@ -95,12 +90,12 @@ export const CalculatorView = () => {
                                 </div>
                                 <div className="col-md-6 text-white">
                                     <input type="number" className="fw-bold text-white border-0 bg-light-green border-green rounded-1"
-                                           value={cuota} onChange={e => setCuota(e.target.value)} />
+                                           value={cuota} />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <CalculatorTable balance={balance} duration={duration} cutoa={cuota} interest={interest} />
+                    <CalculatorTable balance={parseFloat(balance)} duration={parseFloat(duration)} pago={parseFloat(cuota)} interest={parseFloat(interest)} />
                 </div>
             </div>
         </Layout>

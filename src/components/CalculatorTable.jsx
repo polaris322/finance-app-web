@@ -1,24 +1,25 @@
 import React from 'react';
 import {NumberFormater} from "../utils";
 
-export const CalculatorTable = ({balance, duration, cutoa, interest}) => {
+export const CalculatorTable = ({balance, duration, pago, interest}) => {
     let tableData= [];
     let principal = 0;
     let mobiticion= 0;
     let tempBalance = balance;
+
     for (let i = 0; i < duration; i++) {
-        mobiticion = (tempBalance * interest / 100).toFixed(2);
-        principal = cutoa - mobiticion;
+        mobiticion = tempBalance * interest / 100;
+        principal = pago - mobiticion;
         if (principal < 0) {
             principal = 0;
-            tempBalance += mobiticion - cutoa;
+            tempBalance += mobiticion - pago;
         } else {
             tempBalance -= principal;
         }
 
         tableData.push({
             id: i,
-            pago: cutoa,
+            pago: pago,
             interest: mobiticion,
             principal,
             balance: tempBalance
@@ -49,7 +50,7 @@ export const CalculatorTable = ({balance, duration, cutoa, interest}) => {
                         tableData.map(item => (
                             <tr>
                                 <td>{item.id + 1}</td>
-                                <td>{NumberFormater.format(cutoa)}</td>
+                                <td>{NumberFormater.format(pago)}</td>
                                 <td>{NumberFormater.format(item.principal)}</td>
                                 <td>{NumberFormater.format(item.interest)}</td>
                                 <td>{NumberFormater.format(item.balance)}</td>

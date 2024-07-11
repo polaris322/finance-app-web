@@ -6,7 +6,7 @@ import {
     GROSS_OUTCOME,
     OUTCOME_BY_CATEGORY,
     OUTCOME_PENDING,
-    OUTCOME_MAJOR, BALANCE
+    OUTCOME_MAJOR, BALANCE, BALANCE_BY_MONTH
 } from "../config/API";
 
 export const fetchDailyStatistics = (days) => {
@@ -35,4 +35,8 @@ export const fetchMajorOutcomeStatistics = (year, month) => {
 
 export const fetchTotalBalance = () => {
     return sendRequest(`${STATISTICS}${BALANCE}`, 'GET');
+}
+
+export const getBalanceByMonth = () => {
+    return sendRequest(`${STATISTICS}${BALANCE_BY_MONTH}?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`, 'GET');
 }

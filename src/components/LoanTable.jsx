@@ -27,7 +27,7 @@ export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, on
                 <tr>
                     <th scope="col" className="text-decoration-underline w-35">Descripción</th>
                     <th scope="col" className="text-decoration-underline">Monto RD$</th>
-                    {hasCuota && <th scope="col" className="text-decoration-underline">Cuota</th>}
+                    {hasCuota && <th scope="col" className="text-decoration-underline">Plazo</th>}
                     <th scope="col" className="text-decoration-underline">Ultima Pago</th>
                     <th scope="col" className="text-decoration-underline">Metodo De Pago</th>
                     <th scope="col" className="text-decoration-underline">Proximo Pago</th>
@@ -78,7 +78,10 @@ export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, on
                             </td>
                             <td>
                                 <div className="d-flex align-items-center justify-content-between">
-                                    {format(getNextPaymentDate(item.frequency, item.payment_date), 'MM-dd-y')}
+                                    {
+                                        item.status === PAYMENT_STATUS_ENUM.PENDING ? format(item.payment_date, 'MM-dd-y')
+                                            : format(getNextPaymentDate(item.frequency, item.payment_date), 'MM-dd-y')
+                                    }
                                     <button
                                         onClick={(e) => {
                                             // pending

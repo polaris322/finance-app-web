@@ -5,6 +5,9 @@ highcharts3d(Highcharts);
 
 export const MajorOutPieChart = () => {
     const pieChartOptions = {
+        credits: {
+            enabled: false
+        },
         chart: {
             type: 'pie',
             backgroundColor: '#5cdcd2',

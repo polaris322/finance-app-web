@@ -6,6 +6,9 @@ import {NumberFormater} from "../../../utils";
 const MajorOutBarChart = ({data}) => {
 
     const options = {
+        credits: {
+            enabled: false
+        },
         chart: {
             type: 'bar',
             backgroundColor: '#5cdcd2',

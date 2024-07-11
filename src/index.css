@@ -343,3 +343,10 @@ table.bg-transparent.no-border tr td, table.bg-transparent.no-border tr th{
 .w-35 {
   width: 35%;
 }
+
+.btn-show-menu {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translate(-50%, -50%);
+}

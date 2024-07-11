@@ -198,12 +198,12 @@ export const EgresoDialog = () => {
                                 </Form.Group>
                             </Col>
                             <Col md={6}>
-                                <Form.Label className="fw-bold">Cutoas Totales</Form.Label>
+                                <Form.Label className="fw-bold">Plazo</Form.Label>
                                 <InputGroup className="mb-2">
-                                    <Form.Control as="input"
+                                    <Form.Control as="input" type="number"
                                                   required={outcomeCategory === OUTCOME_CATEGORY_ENUM.LOAN}
                                                   value={cuota} onChange={e => setCuota(e.target.value)}
-                                                  className="bg-light-green border-green" placeholder="Cutoas"/>
+                                                  className="bg-light-green border-green" placeholder="Plazo"/>
                                 </InputGroup>
                             </Col>
                             <Col md={6}>

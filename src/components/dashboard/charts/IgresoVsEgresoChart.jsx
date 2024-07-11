@@ -11,6 +11,9 @@ export const SaturationChart = ({income, outcome}) => {
             spacing: [16, 0, 16, 0],
             height: '340px'
         },
+        credits: {
+            enabled: false
+        },
         legend: {
             padding: 5, // Reduce inner padding of legend box
             itemMarginTop: 2, // Reduce vertical spacing between legend items
@@ -39,12 +42,12 @@ export const SaturationChart = ({income, outcome}) => {
                 innerSize: '60%',
                 dataLabels: [{
                     enabled: true,
-                    distance: -50,
+                    distance: -30,
                     // eslint-disable-next-line
-                    format: '{point.percentage:.1f}% <br>=${point.y}',
+                    format: '${point.y}',
                     style: {
                         fontSize: '1.2em',
-                        color: '#fff',
+                        color: '#000',
                         textOutline: 'none',
                         opacity: 1
                     },

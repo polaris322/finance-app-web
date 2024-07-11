@@ -5,6 +5,9 @@ highcharts3d(Highcharts);
 
 export const Ahorro3DChart = ({income, outcome, ahorro}) => {
     const pieChartOptions = {
+        credits: {
+            enabled: false
+        },
         chart: {
             type: 'pie',
             backgroundColor: '#5cdcd2',
@@ -47,7 +50,8 @@ export const Ahorro3DChart = ({income, outcome, ahorro}) => {
                 dataLabels: [{
                     enabled: true,
                     distance: -50,
-                    format: 'RD$ {point.y}',
+                    // eslint-disable-next-line
+                    format: '${point.y}',
                     style: {
                         fontSize: '1.2em',
                         color: '#000',
