@@ -60,7 +60,9 @@ export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, on
                             {hasCuota && <td>{item.cuotas}</td>}
                             <td>
                                 <div className="d-flex align-items-center">
-                                    {format(new Date(item.payment_date), 'MM-dd-yy')}
+                                    {
+                                        item.status === PAYMENT_STATUS_ENUM.PENDING ? 'Pendiente' : format(new Date(item.payment_date), 'MM-dd-yy')
+                                    }
                                     {item.attachment && (
                                         <a rel="noreferrer" className="m-0 p-0 border-0 bg-transparent ms-2" target="_blank" href={`${DOMAIN}/storage/${item.attachment}`}>
                                             <AiFillFilePdf className="text-success"/>
@@ -79,7 +81,7 @@ export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, on
                             <td>
                                 <div className="d-flex align-items-center justify-content-between">
                                     {
-                                        item.status === PAYMENT_STATUS_ENUM.PENDING ? format(item.payment_date, 'MM-dd-y')
+                                        item.status === PAYMENT_STATUS_ENUM.PENDING ? 'No especificado'
                                             : format(getNextPaymentDate(item.frequency, item.payment_date), 'MM-dd-y')
                                     }
                                     <button

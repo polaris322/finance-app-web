@@ -46,10 +46,11 @@ export const SaturationChart = ({income, outcome}) => {
                     // eslint-disable-next-line
                     format: '${point.y}',
                     style: {
-                        fontSize: '1.2em',
+                        fontSize: '1em',
                         color: '#000',
                         textOutline: 'none',
-                        opacity: 1
+                        opacity: 1,
+                        fontWeight: 600
                     },
                     filter: {
                         operator: '>',

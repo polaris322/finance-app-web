@@ -58,10 +58,11 @@ export const GastoCategoriesChart = ({data}) => {
                     distance: -50,
                     format: '{point.percentage:.1f}%',
                     style: {
-                        fontSize: '1.2em',
+                        fontSize: '1em',
                         color: '#000',
                         textOutline: 'none',
-                        opacity: 1
+                        opacity: 1,
+                        fontWeight: 600
                     },
                     filter: {
                         operator: '>',

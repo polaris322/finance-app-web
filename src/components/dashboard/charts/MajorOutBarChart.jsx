@@ -42,7 +42,13 @@ const MajorOutBarChart = ({data}) => {
                     enabled: true,
                     formatter: function() {
                         return NumberFormater.format(this.y); // Display the category name as the label
-                    }
+                    },
+                    style: {
+                        fontSize: '1em',
+                        color: '#000',
+                        textOutline: 'none',
+                        opacity: 1
+                    },
                 },
                 colorByPoint: true, // Set colorByPoint to true
                 colors: ['#ff4141', '#f57900', '#fce94f', '#73d216', '#729fcf', '#5c3566'] // Define the colors for each column

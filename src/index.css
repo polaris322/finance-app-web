@@ -344,9 +344,7 @@ table.bg-transparent.no-border tr td, table.bg-transparent.no-border tr th{
   width: 35%;
 }
 
-.btn-show-menu {
-  position: absolute;
-  top: 50%;
-  left: 0.75rem;
-  transform: translate(-50%, -50%);
+.collapsed .ps-menu-button {
+  padding-right: 0 !important;
+  padding-left: 12px !important;
 }

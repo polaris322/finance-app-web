@@ -25,7 +25,7 @@ export const EgresoDialog = () => {
     const [startDate, setStartDate] = useState('');
     const [amount, setAmount] = useState(1.00);
     const [outcomeCategory, setOutcomeCategory] = useState(OUTCOME_CATEGORY_ENUM.LOAN);
-    const [paymentStatus, setPaymentStatus] = useState(PAYMENT_STATUS_ENUM.PENDING);
+    const [paymentStatus, setPaymentStatus] = useState(PAYMENT_STATUS_ENUM.FINISHED);
     const [attachment, setAttachment] = useState(null);
     const [note, setNote] = useState('');
     const [cuota, setCuota] = useState('');
@@ -41,7 +41,7 @@ export const EgresoDialog = () => {
         setOutcomeCategory(OUTCOME_CATEGORY_ENUM.LOAN);
         setPaymentFrequency(PAYMENT_FREQUENCY_ENUM.MONTHLY);
         setOutcomeName('');
-        setPaymentStatus(PAYMENT_STATUS_ENUM.PENDING);
+        setPaymentStatus(PAYMENT_STATUS_ENUM.FINISHED);
         setAmount(1.00);
         setCuota('');
         setNote('');
@@ -197,15 +197,19 @@ export const EgresoDialog = () => {
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
-                            <Col md={6}>
-                                <Form.Label className="fw-bold">Plazo</Form.Label>
-                                <InputGroup className="mb-2">
-                                    <Form.Control as="input" type="number"
-                                                  required={outcomeCategory === OUTCOME_CATEGORY_ENUM.LOAN}
-                                                  value={cuota} onChange={e => setCuota(e.target.value)}
-                                                  className="bg-light-green border-green" placeholder="Plazo"/>
-                                </InputGroup>
-                            </Col>
+                            {
+                                outcomeCategory === OUTCOME_CATEGORY_ENUM.LOAN && (
+                                    <Col md={6}>
+                                        <Form.Label className="fw-bold">Plazo</Form.Label>
+                                        <InputGroup className="mb-2">
+                                            <Form.Control as="input" type="number"
+                                                          required={outcomeCategory === OUTCOME_CATEGORY_ENUM.LOAN}
+                                                          value={cuota} onChange={e => setCuota(e.target.value)}
+                                                          className="bg-light-green border-green" placeholder="Plazo"/>
+                                        </InputGroup>
+                                    </Col>
+                                )
+                            }
                             <Col md={6}>
                                 <Form.Label className="fw-bold">Monto*</Form.Label>
                                 <InputGroup className="mb-2">
@@ -227,7 +231,7 @@ export const EgresoDialog = () => {
                                                   className="bg-light-green border-green"/>
                                 </Form.Group>
                             </Col>
-                            <Col md={12}>
+                            <Col md={outcomeCategory === OUTCOME_CATEGORY_ENUM.LOAN ? 12 : 6}>
                                 <Form.Group className="mb-2 fw-bold">
                                     <Form.Label>Factura</Form.Label>
                                     <Form.Control type="file"

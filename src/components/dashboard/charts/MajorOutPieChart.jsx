@@ -48,9 +48,9 @@ export const MajorOutPieChart = () => {
                     format: '${point.y}',
                     style: {
                         fontSize: '1em',
+                        color: '#000',
                         textOutline: 'none',
-                        opacity: 1,
-                        color: '#fff'
+                        opacity: 1
                     },
                     filter: {
                         operator: '>',

@@ -49,7 +49,7 @@ const HeaderBar = () => {
         formData.append('amount', balance);
         formData.append('cuotas', 1);
         formData.append('category', OUTCOME_CATEGORY_ENUM.OTHER);
-        formData.append('status', PAYMENT_STATUS_ENUM.PENDING);
+        formData.append('status', PAYMENT_STATUS_ENUM.FINISHED);
         formData.append('type', PAYMENT_TYPE_ENUM.FIXED);
         formData.append('frequency', PAYMENT_FREQUENCY_ENUM.ONE_TIEM);
         formData.append('payment_method', PAYMENT_METHOD_ENUM.EMERGENCY);
@@ -92,7 +92,7 @@ const HeaderBar = () => {
         formData.append('amount', balance);
         formData.append('cuotas', 1);
         formData.append('category', OUTCOME_CATEGORY_ENUM.OTHER);
-        formData.append('status', PAYMENT_STATUS_ENUM.PENDING);
+        formData.append('status', PAYMENT_STATUS_ENUM.FINISHED);
         formData.append('type', PAYMENT_TYPE_ENUM.FIXED);
         formData.append('frequency', PAYMENT_FREQUENCY_ENUM.ONE_TIEM);
         formData.append('payment_method', PAYMENT_METHOD_ENUM.AHORRO);
