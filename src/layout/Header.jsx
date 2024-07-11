@@ -40,6 +40,10 @@ const HeaderBar = () => {
     }, []);
 
     const saveEmergency = () => {
+        if (balance === 0) {
+            return;
+        }
+
         const formData = new FormData();
         formData.append('name', 'Fondo de emergencia');
         formData.append('amount', balance);
@@ -79,6 +83,10 @@ const HeaderBar = () => {
     }
 
     const saveAhorro= () => {
+        if (balance === 0) {
+            return;
+        }
+
         const formData = new FormData();
         formData.append('name', 'Ahorro');
         formData.append('amount', balance);
