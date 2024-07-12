@@ -39,24 +39,28 @@ const UtilityCard = ({goal, data, title }) => {
                 </div>
             </div>
             <div className="w-100 mt-4">
-                <table className="table bg-transparent no-border table-responsive-sm table-hover table-sm text-uppercase">
-                    <thead>
-                    <tr>
-                        <th scope="col" className="text-decoration-underline w-35">Fecha</th>
-                        <th scope="col" className="text-decoration-underline">Monto</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        data.map((item, index) => (
-                            <tr key={index}>
-                                <td className={item.amount < 0 ? 'text-danger h6' : 'h6'}>{item.date}</td>
-                                <td className={item.amount < 0 ? 'text-danger h6' : 'h6'}>{NumberFormater.format(item.amount)}</td>
+                {
+                    data.length !== 0 && (
+                        <table className="table bg-transparent no-border table-responsive-sm table-hover table-sm text-uppercase">
+                            <thead>
+                            <tr>
+                                <th scope="col" className="text-decoration-underline w-35">Fecha</th>
+                                <th scope="col" className="text-decoration-underline">Monto</th>
                             </tr>
-                        ))
-                    }
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                            {
+                                data.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className={item.amount < 0 ? 'text-danger h6' : 'h6'}>{item.date}</td>
+                                        <td className={item.amount < 0 ? 'text-danger h6' : 'h6'}>{NumberFormater.format(item.amount)}</td>
+                                    </tr>
+                                ))
+                            }
+                            </tbody>
+                        </table>
+                    )
+                }
             </div>
         </div>
     )

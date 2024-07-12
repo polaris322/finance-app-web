@@ -4,13 +4,15 @@ import {activityReducer} from "./reducers/activities";
 import {incomeReducer} from "./reducers/incomes";
 import {outcomeReducer} from "./reducers/outcomes";
 import {utilityReducer} from "./reducers/utility";
+import {layoutReducer} from './reducers/layout';
 
 const rootReducer = combineReducers({
     project: projectReducer,
     activity: activityReducer,
     income: incomeReducer,
     outcome: outcomeReducer,
-    utility: utilityReducer
+    utility: utilityReducer,
+    layout: layoutReducer
 });
 
 export const store = createStore(

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Navbar, Nav, NavDropdown, Tooltip, OverlayTrigger} from "react-bootstrap";
+import {Navbar, Nav, NavDropdown, Tooltip, OverlayTrigger, Spinner} from "react-bootstrap";
 import logo from "../assets/images/logo-banner.png";
 import avatar from "../assets/images/user.png";
 import {AuthContext} from "../contexts/AuthContext";
@@ -150,27 +150,33 @@ const HeaderBar = () => {
                         <ActividadesDialog />
                     </NavDropdown>
                     <Nav.Item>
-                        <OverlayTrigger
-                            placement="bottom"
-                            delay={{ show: 250, hide: 400 }}
-                            trigger={['hover', 'focus', 'click']}
-                            overlay={<Tooltip id="button-tooltip">Transferencia de ingresos directamente a fondo de emergencia.</Tooltip>}
-                        >
-                            <button className="btn" disabled={loading} onClick={saveEmergency}>
-                                <AiFillBell className="fs-4" />
-                            </button>
-                        </OverlayTrigger>
+                        {
+                            loading ? <Spinner animation="grow" variant="info" /> : (
+                                <>
+                                    <OverlayTrigger
+                                        placement="bottom"
+                                        delay={{ show: 250, hide: 400 }}
+                                        trigger={['hover', 'focus', 'click']}
+                                        overlay={<Tooltip id="button-tooltip">Transferencia de ingresos directamente a fondo de emergencia.</Tooltip>}
+                                    >
+                                        <button className="btn" disabled={loading} onClick={saveEmergency}>
+                                            <AiFillBell className="fs-4" />
+                                        </button>
+                                    </OverlayTrigger>
 
-                        <OverlayTrigger
-                            placement="bottom"
-                            delay={{ show: 250, hide: 400 }}
-                            trigger={['hover', 'focus', 'click']}
-                            overlay={<Tooltip id="button-tooltip">Transferencia de ingresos directamente an ahorro.</Tooltip>}
-                        >
-                            <button className="btn" disabled={loading} onClick={saveAhorro}>
-                                <FaShareAlt className="fs-4" />
-                            </button>
-                        </OverlayTrigger>
+                                    <OverlayTrigger
+                                        placement="bottom"
+                                        delay={{ show: 250, hide: 400 }}
+                                        trigger={['hover', 'focus', 'click']}
+                                        overlay={<Tooltip id="button-tooltip">Transferencia de ingresos directamente an ahorro.</Tooltip>}
+                                    >
+                                        <button className="btn" disabled={loading} onClick={saveAhorro}>
+                                            <FaShareAlt className="fs-4" />
+                                        </button>
+                                    </OverlayTrigger>
+                                </>
+                            )
+                        }
                     </Nav.Item>
                     <NavDropdown
                         className="no-caret"

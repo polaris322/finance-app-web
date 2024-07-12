@@ -33,7 +33,7 @@ const UtilityCard = () => {
                     <div className="progress" role="progressbar" aria-label="Success example" aria-valuenow={outcome / income * 100}
                          aria-valuemin="0" aria-valuemax="100">
                         <div className="progress-bar bg-success" style={{width: `${outcome / income * 100}%`}}>
-                            {outcome / income * 100}%
+                            {(outcome / income * 100).toFixed(1)}%
                         </div>
                     </div>
                 </div>
