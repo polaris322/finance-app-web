@@ -9,11 +9,11 @@ import {
     AiOutlineCalendar,
     AiOutlineHistory,
     AiOutlineSetting,
-    AiOutlineBulb
+    AiOutlineBulb,
 } from "react-icons/ai";
 import {FaChampagneGlasses} from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
-import {BsWhatsapp} from "react-icons/bs";
+import {BsPiggyBank, BsWhatsapp} from "react-icons/bs";
 import {useDispatch, useSelector} from "react-redux";
 import {updateSidemenuStatus} from "../store/actions/layout";
 
@@ -41,6 +41,11 @@ export const SideMenu = () => {
                 <MenuItem component={<Link to="/dashboard" />} active={location.pathname === '/dashboard'} className={`text-uppercase fw-bold ${showSideMenuText? '' : 'collapsed'}`}>
                     <div className="d-flex align-items-center">
                         <FaHome className="me-1 fs-4" /> {showSideMenuText && 'Inicio'}
+                    </div>
+                </MenuItem>
+                <MenuItem component={<Link to="/income" />} active={location.pathname === '/income'} className={`text-uppercase fw-bold ${showSideMenuText? '' : 'collapsed'}`}>
+                    <div className="d-flex align-items-center">
+                        <BsPiggyBank className="me-1 fs-4" /> {showSideMenuText && 'Igresos'}
                     </div>
                 </MenuItem>
                 <MenuItem component={<Link to="/expense" />} className={`text-uppercase fw-bold ${showSideMenuText? '' : 'collapsed'}`} active={location.pathname === '/expense'}>

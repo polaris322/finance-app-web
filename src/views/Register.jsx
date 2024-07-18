@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button } from 'react-bootstrap';
 import { registerUser } from '../services/AuthService';
 import {AiFillMail, AiFillPhone, AiOutlineApple, AiOutlineGoogle} from "react-icons/ai";
-import {FaLock, FaUser} from "react-icons/fa";
+import {FaLock, FaUser, FaWallet} from "react-icons/fa";
 import SignInImage from "../assets/images/3528479.png";
 import Logo from "../assets/images/logo.png";
 
@@ -12,6 +12,7 @@ const Register = () => {
     const [lastName, setLastName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [accountEmail, setAccountEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const Register = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            let res = await registerUser(firstName, lastName, phone, email, password);
+            let res = await registerUser(firstName, lastName, phone, email, password, accountEmail);
             if (res.success){
                 navigate('/login');
             }
@@ -84,6 +85,15 @@ const Register = () => {
                                 <FaLock />
                             </div>
                             <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="form-control" placeholder="Password" required/>
+                        </div>
+                        <div>
+                            Already have an account?
+                        </div>
+                        <div className="form-group mb-3">
+                            <div className="icon d-flex align-items-center justify-content-center">
+                                <FaWallet />
+                            </div>
+                            <input type="email" value={accountEmail} onChange={e => setAccountEmail(e.target.value)} className="form-control" placeholder="Account Email"/>
                         </div>
                         <div className="form-group mt-4">
                             {!loading ? (

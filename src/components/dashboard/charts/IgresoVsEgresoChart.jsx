@@ -21,7 +21,7 @@ export const SaturationChart = ({income, outcome}) => {
             symbolPadding: 5 // Increase horizontal spacing within legend
         },
         title: {
-            text: '',
+            text: 'Presupueto actual',
             align: 'right'
         },
         accessibility: {

@@ -7,6 +7,7 @@ import Register from './views/Register';
 import Dashboard from './views/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import {ExpenseView} from "./views/Expense";
+import {IncomeView} from "./views/Igresos";
 import {HistoryView} from "./views/History";
 import {CalculatorView} from "./views/CalculatorView";
 import {CalendarView} from "./views/CalendarView";
@@ -33,6 +34,11 @@ const App = () => {
                         <Route path="/dashboard" element={
                             <PrivateRoute>
                                 <Dashboard />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/income" element={
+                            <PrivateRoute>
+                                <IncomeView />
                             </PrivateRoute>
                         } />
                         <Route path="/expense" element={

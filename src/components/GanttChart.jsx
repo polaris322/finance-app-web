@@ -37,6 +37,9 @@ const GanttChart = ({data}) => {
 
     useEffect(() => {
         setOptions({
+            credits: {
+                enabled: false
+            },
             xAxis: {
                 min: firstDay.getTime(),
                 max: lastDay.getTime(),

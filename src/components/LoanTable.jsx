@@ -1,5 +1,5 @@
 import React from 'react';
-import {PAYMENT_METHOD, PAYMENT_STATUS_ENUM} from "../config/enums";
+import {PAYMENT_FREQUENCY_ENUM, PAYMENT_METHOD, PAYMENT_STATUS_ENUM} from "../config/enums";
 import {
     AiFillFilePdf,
     AiOutlineCheck,
@@ -11,8 +11,8 @@ import {DOMAIN} from "../config/API";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, onUpdate}) => {
-    const updateStatus = (id, status) => {
-        onUpdateStatus(id, status).then((res) => {
+    const updateStatus = (id, status, newDate) => {
+        onUpdateStatus(id, status, newDate).then((res) => {
             if (res.success) {
                 onUpdate();
             }
@@ -81,8 +81,8 @@ export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, on
                             <td>
                                 <div className="d-flex align-items-center justify-content-between">
                                     {
-                                        item.status === PAYMENT_STATUS_ENUM.PENDING ? 'No especificado'
-                                            : format(getNextPaymentDate(item.frequency, item.payment_date), 'MM-dd-y')
+                                        item.status === PAYMENT_STATUS_ENUM.PENDING ? format(new Date(item.payment_date), 'MM-dd-y')
+                                            : item.frequency === PAYMENT_FREQUENCY_ENUM.ONE_TIEM ? 'NO PROXIMO PAGO' : format(getNextPaymentDate(item.frequency, item.payment_date), 'MM-dd-y')
                                     }
                                     <button
                                         onClick={(e) => {
@@ -90,7 +90,7 @@ export const LoanTable = ({hasCuota = true, title, data = [], onUpdateStatus, on
                                             if (item.status === PAYMENT_STATUS_ENUM.PENDING) {
                                                 updateStatus(item.id, PAYMENT_STATUS_ENUM.FINISHED);
                                             } else {
-                                                updateStatus(item.id, PAYMENT_STATUS_ENUM.PENDING);
+                                                updateStatus(item.id, PAYMENT_STATUS_ENUM.PENDING, format(getNextPaymentDate(item.frequency, item.payment_date), 'y-MM-dd'));
                                             }
                                         }}
                                         className="bg-transparent p-0 border-0 d-flex align-items-center align-content-center ms-2">

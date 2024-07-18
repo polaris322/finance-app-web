@@ -1,7 +1,7 @@
 import {UPDATE_INCOME_LIST} from "../types/incomes";
 
 const INIT_STATE = {
-    list: []
+    list: {fixed: [], dynamic: []}
 };
 
 export const incomeReducer = (state = INIT_STATE, action) => {

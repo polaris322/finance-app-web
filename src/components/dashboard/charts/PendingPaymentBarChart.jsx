@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import {NumberFormater} from "../../../utils";
 
-const PendingPaymentBarChart = ({data}) => {
+const PendingPaymentBarChart = ({data, title}) => {
     const options = {
         chart: {
             type: 'bar',
@@ -14,7 +14,7 @@ const PendingPaymentBarChart = ({data}) => {
             enabled: false
         },
         title: {
-            text: 'PENDIENTE POR PAGAR',
+            text: title,
             align: 'right'
         },
         xAxis: {

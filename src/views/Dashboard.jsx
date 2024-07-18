@@ -13,17 +13,19 @@ import MajorOutBarChart from "../components/dashboard/charts/MajorOutBarChart";
 import {
     fetchGrossOutcomeStatistics,
     fetchGrossStatistics, fetchMajorOutcomeStatistics,
-    fetchOutcomeByCategoryStatistics, fetchOutcomePendingStatistics
+    fetchOutcomeByCategoryStatistics, fetchOutcomePaidStatistics, fetchOutcomePendingStatistics
 } from "../services/StatisticsService";
 
 const Dashboard = () => {
     const [grossIncome, setGrossIncome] = useState(0);
     const [grossOutcome, setGrossOutcome] = useState(0);
     const [grossAhorro, setGrossAhorro] = useState(0);
+    const [grossEmergency, setGrossEmergency] = useState(0);
     const [grossOutcomePending, setGrossOutcomePending] = useState(0);
     const [grossOutcomeFinished, setGrossOutcomeFinished] = useState(0);
     const [outcomeByCategory, setOutcomeByCategory] = useState([]);
     const [pendingOutcome, setPendingOutcome] = useState([]);
+    const [paidOutcome, setPaidOutcome] = useState([]);
     const [majorOutcome, setMajorOutcome] = useState([]);
 
     const year = new Date().getFullYear();
@@ -35,6 +37,7 @@ const Dashboard = () => {
                 setGrossIncome(res.data.income);
                 setGrossOutcome(res.data.outcome);
                 setGrossAhorro(res.data.ahorro);
+                setGrossEmergency(res.data.emergency);
             }
         });
         fetchGrossOutcomeStatistics(year, month).then(res => {
@@ -51,6 +54,11 @@ const Dashboard = () => {
         fetchOutcomePendingStatistics(year, month).then(res => {
             if (res.success) {
                 setPendingOutcome(res.data);
+            }
+        });
+        fetchOutcomePaidStatistics(year, month).then(res => {
+            if (res.success) {
+                setPaidOutcome(res.data);
             }
         });
         fetchMajorOutcomeStatistics(year, month).then(res => {
@@ -84,7 +92,7 @@ const Dashboard = () => {
                     <div className="p-3 rounded-4 bg-dark-green shadow-lg">
                         <Carousel interval={null} indicators={false} fade={false} className="h-100">
                             <CarouselItem>
-                                <Ahorro3DChart income={grossIncome} outcome={grossOutcome - grossAhorro} ahorro={grossAhorro} />
+                                <Ahorro3DChart income={grossIncome} outcome={grossOutcome - grossAhorro -grossEmergency} ahorro={grossAhorro} emergency={grossEmergency} />
                             </CarouselItem>
                             <CarouselItem>
                                 <GastoCategoriesChart data={outcomeByCategory} />
@@ -99,7 +107,10 @@ const Dashboard = () => {
                     <div className="bg-dark-green rounded-4 p-3 shadow-lg">
                         <Carousel interval={null} indicators={false} fade={false} className="h-100">
                             <CarouselItem>
-                                <PendingPaymentBarChart data={pendingOutcome} />
+                                <PendingPaymentBarChart data={pendingOutcome} title="PENDIENTE POR PAGAR"/>
+                            </CarouselItem>
+                            <CarouselItem>
+                                <PendingPaymentBarChart data={paidOutcome} title="PAGADO"/>
                             </CarouselItem>
                         </Carousel>
                     </div>

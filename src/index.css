@@ -348,3 +348,15 @@ table.bg-transparent.no-border tr td, table.bg-transparent.no-border tr th{
   padding-right: 0 !important;
   padding-left: 12px !important;
 }
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.nav-underline .nav-link {
+  padding-right: 0;
+  padding-left: 0;
+  border-bottom: var(--bs-nav-underline-border-width) solid transparent;
+  color: black;
+}

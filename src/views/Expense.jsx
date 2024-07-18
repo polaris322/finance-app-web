@@ -6,14 +6,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchOutcomes, updateOutcomeStatus} from "../services/OutcomeService";
 import {updateOutcomeList} from "../store/actions/outcomes";
 import {OUTCOME_CATEGORY_ENUM} from "../config/enums";
+import {Tabs} from "react-bootstrap";
+import {Tab} from "bootstrap/js/index.esm";
 
 export const ExpenseView = () => {
     const dispatch = useDispatch();
     const { list } = useSelector((state) => state.outcome);
 
-    const [loans, setLoans] = useState([]);
-    const [services, setServices] = useState([]);
-    const [others, setOthers] = useState([]);
+    const [fixedLoan, setFixedLoan] = useState([]);
+    const [fixedServices, setFixedServices] = useState([]);
+    const [fixedOthers, setFixedOthers] = useState([]);
+    const [dynamicLoan, setDynamicLoan] = useState([]);
+    const [dynamicServices, setDynamicServices] = useState([]);
+    const [dynamicOthers, setDynamicOthers] = useState([]);
 
     const getOutcomes = useCallback(() => {
         fetchOutcomes().then(res => {
@@ -28,9 +33,12 @@ export const ExpenseView = () => {
     }, [getOutcomes]);
 
     useEffect(() => {
-        setLoans(list.filter(item => item.category === OUTCOME_CATEGORY_ENUM.LOAN));
-        setServices(list.filter(item => item.category === OUTCOME_CATEGORY_ENUM.SERVICE));
-        setOthers(list.filter(item => item.category === OUTCOME_CATEGORY_ENUM.OTHER));
+        setFixedLoan(list.fixed.filter(item => item.category === OUTCOME_CATEGORY_ENUM.LOAN));
+        setFixedServices(list.fixed.filter(item => item.category === OUTCOME_CATEGORY_ENUM.SERVICE));
+        setFixedOthers(list.fixed.filter(item => item.category === OUTCOME_CATEGORY_ENUM.OTHER));
+        setDynamicLoan(list.dynamic.filter(item => item.category === OUTCOME_CATEGORY_ENUM.LOAN));
+        setDynamicServices(list.dynamic.filter(item => item.category === OUTCOME_CATEGORY_ENUM.SERVICE));
+        setDynamicOthers(list.dynamic.filter(item => item.category === OUTCOME_CATEGORY_ENUM.OTHER));
     }, [list])
 
     return (
@@ -40,32 +48,64 @@ export const ExpenseView = () => {
                 Egresos
             </h2>
 
-            <div className="w-100">
-                <h5 className="text-uppercase text-end">Gastos fljos</h5>
+            <Tabs
+                defaultActiveKey="fixed"
+                variant="underline"
+                className="justify-content-end mb-2 h5 text-uppercase"
+            >
+                <Tab eventKey="fixed" title="Gastos fljos">
+                    <div className="w-100">
+                        <div className="bg-light-green p-3 rounded-4 shadow-lg">
+                            <LoanTable title="Prestamos"
+                                       onUpdateStatus={updateOutcomeStatus}
+                                       data={fixedLoan}
+                                       onUpdate={getOutcomes}/>
+                        </div>
 
-                <div className="bg-light-green p-3 rounded-4 shadow-lg">
-                    <LoanTable title="Prestamos"
-                               onUpdateStatus={updateOutcomeStatus}
-                               data={loans}
-                               onUpdate={getOutcomes}/>
-                </div>
+                        <div className="bg-light-green p-3 rounded-4 shadow-lg mt-4">
+                            <LoanTable hasCuota={false}
+                                       title="Servicios"
+                                       onUpdateStatus={updateOutcomeStatus}
+                                       data={fixedServices}
+                                       onUpdate={getOutcomes}/>
+                        </div>
 
-                <div className="bg-light-green p-3 rounded-4 shadow-lg mt-4">
-                    <LoanTable hasCuota={false}
-                               title="Servicios"
-                               onUpdateStatus={updateOutcomeStatus}
-                               data={services}
-                               onUpdate={getOutcomes}/>
-                </div>
+                        <div className="bg-light-green p-3 rounded-4 shadow-lg mt-4">
+                            <LoanTable hasCuota={false}
+                                       title="Otros"
+                                       onUpdateStatus={updateOutcomeStatus}
+                                       data={fixedOthers}
+                                       onUpdate={getOutcomes}/>
+                        </div>
+                    </div>
+                </Tab>
+                <Tab eventKey="dynamic" title="Gastos dynamico">
+                    <div className="w-100">
+                        <div className="bg-light-green p-3 rounded-4 shadow-lg">
+                            <LoanTable title="Prestamos"
+                                       onUpdateStatus={updateOutcomeStatus}
+                                       data={dynamicLoan}
+                                       onUpdate={getOutcomes}/>
+                        </div>
 
-                <div className="bg-light-green p-3 rounded-4 shadow-lg mt-4">
-                    <LoanTable hasCuota={false}
-                               title="Otros"
-                               onUpdateStatus={updateOutcomeStatus}
-                               data={others}
-                               onUpdate={getOutcomes}/>
-                </div>
-            </div>
+                        <div className="bg-light-green p-3 rounded-4 shadow-lg mt-4">
+                            <LoanTable hasCuota={false}
+                                       title="Servicios"
+                                       onUpdateStatus={updateOutcomeStatus}
+                                       data={dynamicServices}
+                                       onUpdate={getOutcomes}/>
+                        </div>
+
+                        <div className="bg-light-green p-3 rounded-4 shadow-lg mt-4">
+                            <LoanTable hasCuota={false}
+                                       title="Otros"
+                                       onUpdateStatus={updateOutcomeStatus}
+                                       data={dynamicOthers}
+                                       onUpdate={getOutcomes}/>
+                        </div>
+                    </div>
+                </Tab>
+            </Tabs>
         </Layout>
     )
 }

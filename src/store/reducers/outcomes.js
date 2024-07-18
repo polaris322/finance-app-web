@@ -1,7 +1,7 @@
 import {UPDATE_OUTCOME_LIST} from "../types/outcomes";
 
 const INIT_STATE = {
-    list: []
+    list: {fixed: [], dynamic: []}
 };
 
 export const outcomeReducer = (state = INIT_STATE, action) => {

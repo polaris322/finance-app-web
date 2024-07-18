@@ -1,5 +1,5 @@
 import { sendRequest } from "../utils";
-import {OUTCOME, UPDATE_STATUS} from "../config/API";
+import {INCOME, OUTCOME, UPDATE_STATUS} from "../config/API";
 
 export const createOutcome = (formData) => {
     return sendRequest(
@@ -14,6 +14,10 @@ export const fetchOutcomes = () => {
     return sendRequest(OUTCOME, 'GET');
 }
 
-export const updateOutcomeStatus = (outcomeId, status) => {
-    return sendRequest(`${OUTCOME}/${outcomeId}${UPDATE_STATUS}`, 'PUT', { status });
+export const fetchIncomes = () => {
+    return sendRequest(INCOME, 'GET');
+}
+
+export const updateOutcomeStatus = (outcomeId, status, newDate) => {
+    return sendRequest(`${OUTCOME}/${outcomeId}${UPDATE_STATUS}`, 'PUT', { status, newDate });
 }
